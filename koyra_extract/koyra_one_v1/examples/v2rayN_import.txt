@@ -1,0 +1,11 @@
+در v2rayN:
+
+1) Servers
+2) Import bulk URL from clipboard
+3) لینک زیر را بده:
+
+https://YOUR-SERVICE.koyeb.app/sub
+
+اگر KOYRA_SUB_TOKEN گذاشتی:
+
+https://YOUR-SERVICE.koyeb.app/sub/YOUR_TOKEN
