@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>mcoders BPB/Nova Easy v2</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 3.2L17.6 8 12 10.8 6.4 8 12 5.2ZM5 10.1l6 3v5.7l-6-3.3v-5.4Zm14 0v5.4l-6 3.3v-5.7l6-3Z"/></svg>
+        </div>
+        <div>
+          <h1>BPB/Nova Easy Config v2</h1>
+          <p>چند کلیک واقعی برای Deploy، تست، انتخاب و کپی کانفیگ سالم</p>
+        </div>
+      </div>
+      <div class="brand-note">ساخته شده توسط <a href="https://github.com/mcodersir" target="_blank">mcoders</a></div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <span class="pill">Nova Easy Mode</span>
+        <h2>کاربر لازم نیست اسکنر و تنظیمات سخت را بفهمد.</h2>
+        <p>Cloudflare را وصل کن، Worker را Deploy کن، بعد Start را بزن. نرم‌افزار خودش کانفیگ‌ها را می‌سازد، IPهای بهتر را تست می‌کند و خروجی قابل import می‌دهد.</p>
+      </div>
+      <div class="hero-actions">
+        <button class="btn ghost" data-open="atomic_mail"><span>✉</span> Atomic Mail</button>
+        <button class="btn ghost" data-open="cloudflare_signup"><span>☁</span> ثبت‌نام Cloudflare</button>
+        <button class="btn ghost" id="openOutputBtn"><span>▣</span> پوشه خروجی</button>
+      </div>
+    </section>
+
+    <main class="steps">
+      <section class="panel" id="step1">
+        <div class="step-head">
+          <span class="num">۱</span>
+          <div><h2>اتصال و Deploy روی Cloudflare</h2><p>اگر Worker را قبلاً داری، این مرحله را رد کن و برو سراغ مرحله ۲.</p></div>
+        </div>
+        <div class="grid two">
+          <div class="card">
+            <label>Cloudflare API Token
+              <input id="cfToken" type="text" dir="ltr" placeholder="توکن را اینجا وارد کن" />
+            </label>
+            <label>Account ID
+              <input id="cfAccountId" type="text" dir="ltr" placeholder="بعد از تست توکن، اگر ممکن باشد خودکار پر می‌شود" />
+            </label>
+            <div class="mini-grid">
+              <label>Worker Name<input id="workerName" type="text" dir="ltr" value="bpb-nova-panel" /></label>
+              <label>Subscription Path<input id="subPath" type="text" dir="ltr" value="sub" /></label>
+            </div>
+            <label>UUID برای VLESS
+              <input id="bpbUuid" type="text" dir="ltr" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" />
+            </label>
+            <button class="btn small ghost" id="genUuidBtn">ساخت UUID</button>
+            <label>Proxy IP اختیاری
+              <input id="proxyIp" type="text" dir="ltr" placeholder="اختیاری؛ مثلاً host:port" />
+            </label>
+            <div class="btn-row">
+              <button class="btn primary" id="verifyCfBtn"><span>✓</span> تست توکن</button>
+              <button class="btn accent" id="deployCfBtn"><span>↗</span> Deploy Worker</button>
+            </div>
+            <pre class="result-box" id="cfResult">توکن، Account ID و UUID را وارد کن؛ سپس Deploy را بزن.</pre>
+          </div>
+          <aside class="card guide">
+            <h3>راهنمای دقیق Cloudflare</h3>
+            <ol>
+              <li>روی «ثبت‌نام Cloudflare» بالا بزن و وارد حساب شو.</li>
+              <li>به API Tokens برو: <button class="linkbtn" data-open="cloudflare_api_tokens">باز کردن API Tokens</button></li>
+              <li>Create Token را بزن.</li>
+              <li>Permission: <b>Account → Workers Scripts → Edit</b></li>
+              <li>توکن را اینجا Paste کن و «تست توکن» را بزن.</li>
+              <li>اگر Account ID خودکار نیامد، از Workers &amp; Pages → Account details کپی کن.</li>
+            </ol>
+            <button class="btn ghost full" data-open="cloudflare_workers_pages">باز کردن Workers & Pages</button>
+          </aside>
+        </div>
+      </section>
+
+      <section class="panel" id="step2">
+        <div class="step-head">
+          <span class="num">۲</span>
+          <div><h2>گرفتن کانفیگ سالم</h2><p>حالت پیش‌فرض Nova Easy است؛ اسکن، ترکیب و تست را خودش انجام می‌دهد.</p></div>
+        </div>
+        <div class="grid two">
+          <div class="card main-card">
+            <label>Subscription URL
+              <input id="subUrl" type="text" dir="ltr" placeholder="https://your-worker.workers.dev/sub" />
+            </label>
+            <div class="btn-row compact">
+              <button class="btn ghost" id="pasteBtn">Paste</button>
+              <button class="btn ghost" id="fetchBtn">Check</button>
+            </div>
+            <div class="mode-row">
+              <label class="radio-label featured"><input type="radio" name="mode" value="nova_easy" checked /> Nova Easy — پیشنهادی</label>
+              <label class="radio-label"><input type="radio" name="mode" value="auto" /> Smart قدیمی</label>
+              <label class="radio-label"><input type="radio" name="mode" value="clean_ip" /> فقط Clean IP</label>
+            </div>
+            <details class="advanced">
+              <summary>تنظیمات پیشرفته</summary>
+              <label>IP List اختیاری
+                <textarea id="ipList" dir="ltr" rows="4" placeholder="اگر IP داری، هر خط یکی بگذار؛ اگر نداری خالی بماند."></textarea>
+              </label>
+              <div class="ports-row">
+                <span>Ports</span>
+                <label><input type="checkbox" class="port" value="443" checked />443</label>
+                <label><input type="checkbox" class="port" value="8443" checked />8443</label>
+                <label><input type="checkbox" class="port" value="2053" checked />2053</label>
+                <label><input type="checkbox" class="port" value="2083" checked />2083</label>
+                <label><input type="checkbox" class="port" value="2087" />2087</label>
+                <label><input type="checkbox" class="port" value="2096" />2096</label>
+              </div>
+              <div class="settings-row">
+                <label>Timeout <input type="number" id="timeout" value="7" min="2" max="20" /></label>
+                <label>Workers <input type="number" id="workers" value="48" min="1" max="80" /></label>
+                <label>Limit <input type="number" id="limit" value="2600" min="1" max="20000" /></label>
+                <label>Random IPs <input type="number" id="randomCount" value="420" min="0" max="5000" /></label>
+              </div>
+            </details>
+            <button class="btn primary big" id="runBtn"><span>⚡</span> Start — خروجی کانفیگ سالم</button>
+          </div>
+          <aside class="card side-card">
+            <h3>اسکنر اختیاری</h3>
+            <p>لازم نیست کاربر عادی اینجا کاری کند. Nova Easy خودش در زمان Start پیش‌اسکن انجام می‌دهد. اگر IP/CIDR خاص داری، اینجا تست کن.</p>
+            <label>IP/CIDR
+              <textarea id="scannerIpText" dir="ltr" rows="2" placeholder="104.16.0.0/24"></textarea>
+            </label>
+            <div class="settings-row">
+              <label>Random <input type="number" id="scanRandomCount" value="240" min="0" max="5000" /></label>
+              <label>Timeout <input type="number" id="scanTimeout" value="4" min="2" max="20" /></label>
+            </div>
+            <div class="btn-row compact">
+              <button class="btn accent" id="scanIpBtn">Scan</button>
+              <button class="btn ghost" id="useCleanIpsBtn">استفاده از یافته‌ها</button>
+            </div>
+            <pre class="result-box small" id="ipScanResult">اختیاری است؛ برای شروع فقط Start را بزن.</pre>
+          </aside>
+        </div>
+      </section>
+
+      <section class="panel" id="step3">
+        <div class="step-head">
+          <span class="num">۳</span>
+          <div><h2>کپی خروجی</h2><p>فایل اصلی برای import: <b>output/nova_best_config_only.txt</b></p></div>
+        </div>
+        <div class="card">
+          <div id="liveProgress" class="live-progress" style="display:none">
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <p id="progressText">در حال تست...</p>
+          </div>
+          <label>بهترین کانفیگ
+            <textarea id="bestConfig" class="big-output" dir="ltr" readonly placeholder="بعد از Start، کانفیگ سالم اینجا می‌آید."></textarea>
+          </label>
+          <div class="btn-row">
+            <button class="btn primary" id="copyBestBtn">کپی کانفیگ</button>
+            <button class="btn ghost" id="openOutputBtn2">پوشه خروجی</button>
+          </div>
+        </div>
+        <div class="results-list" id="results"></div>
+      </section>
+    </main>
+    <footer>ساخته شده توسط <a href="https://github.com/mcodersir" target="_blank">mcoders</a> — سورس شفاف، بدون کد مبهم و بدون CDN خارجی.</footer>
+    <div id="toast" class="toast"></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+name: Build & Release v2
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            artifact: BPB-Easy-Config-Windows
+            ext: .exe
+            icon: icon_assets/bpb_icon.ico
+          - os: macos-latest
+            artifact: BPB-Easy-Config-macOS
+            ext: ''
+            icon: icon_assets/bpb_icon_256.png
+          - os: ubuntu-latest
+            artifact: BPB-Easy-Config-Linux
+            ext: ''
+            icon: icon_assets/bpb_icon_256.png
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build executable (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          pyinstaller --name "BPB-Easy-Config" ^
+            --onefile ^
+            --console ^
+            --icon ${{ matrix.icon }} ^
+            --add-data "ui;ui" ^
+            --add-data "integrated_sources;integrated_sources" ^
+            --add-data "examples;examples" ^
+            --add-data "VERSION.txt;." ^
+            --add-data "LICENSE;." ^
+            --hidden-import core ^
+            --hidden-import cloudflare_deployer ^
+            --hidden-import json ^
+            --hidden-import mimetypes ^
+            --hidden-import socket ^
+            --hidden-import threading ^
+            --hidden-import webbrowser ^
+            --hidden-import http.server ^
+            --hidden-import pathlib ^
+            --hidden-import urllib.parse ^
+            --hidden-import ssl ^
+            --hidden-import concurrent.futures ^
+            --hidden-import ipaddress ^
+            --hidden-import base64 ^
+            --hidden-import secrets ^
+            --hidden-import datetime ^
+            --hidden-import dataclasses ^
+            --hidden-import re ^
+            --hidden-import random ^
+            --hidden-import time ^
+            --hidden-import subprocess ^
+            --paths src ^
+            --noupx ^
+            --clean ^
+            start.py
+        shell: cmd
+
+      - name: Build executable (macOS/Linux)
+        if: runner.os != 'Windows'
+        run: |
+          pyinstaller --name "BPB-Easy-Config" \
+            --onefile \
+            --console \
+            --icon ${{ matrix.icon }} \
+            --add-data "ui:ui" \
+            --add-data "integrated_sources:integrated_sources" \
+            --add-data "examples:examples" \
+            --add-data "VERSION.txt:." \
+            --add-data "LICENSE:." \
+            --hidden-import core \
+            --hidden-import cloudflare_deployer \
+            --hidden-import json \
+            --hidden-import mimetypes \
+            --hidden-import socket \
+            --hidden-import threading \
+            --hidden-import webbrowser \
+            --hidden-import http.server \
+            --hidden-import pathlib \
+            --hidden-import urllib.parse \
+            --hidden-import ssl \
+            --hidden-import concurrent.futures \
+            --hidden-import ipaddress \
+            --hidden-import base64 \
+            --hidden-import secrets \
+            --hidden-import datetime \
+            --hidden-import dataclasses \
+            --hidden-import re \
+            --hidden-import random \
+            --hidden-import time \
+            --hidden-import subprocess \
+            --paths src \
+            --noupx \
+            --clean \
+            start.py
+        shell: bash
+
+      - name: Rename artifact
+        shell: bash
+        run: |
+          cd dist
+          mv BPB-Easy-Config${{ matrix.ext }} ${{ matrix.artifact }}${{ matrix.ext }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: dist/${{ matrix.artifact }}${{ matrix.ext }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: List artifacts
+        run: find artifacts -type f -ls
+
+      - name: Create or update release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: BPB/Nova Easy Active Config v2.0
+          body: |
+            ## BPB/Nova Easy Active Config v2.0 🚀
+
+            ### نسخه ۲ — ساده‌تر، واقعی‌تر، سریع‌تر
+
+            تغییرات اصلی:
+            - 🎯 **رابط ساده ۳ مرحله‌ای** — Deploy → Test → Copy
+            - 📡 **نتایج زنده (SSE Streaming)** — هر کانفیگ به محض تست نمایش داده می‌شود
+            - 🛡️ **Nova Easy Mode** — پیش‌اسکن، رتبه‌بندی بهتر و خروجی آماده import
+            - 🔧 **رفع خطای HTTP 500** — همیشه کانفیگ تولید می‌شود، هیچ‌وقت خالی برنمی‌گردد
+            - 🔒 **رفع مشکل CSP/eval** — بدون استفاده از eval در JavaScript
+            - 💾 **ذخیره خودکار IP** — لیست IPها برای استفاده بعدی ذخیره می‌شود
+            - 📋 **خروجی‌های آماده** — nova_best_config_only، working configs و Clash/Mihomo YAML
+            - 🎨 **UI جدید و ریسپانسیو** — بدون CDN خارجی و بدون فونت اجباری
+
+            ### دانلود و نصب
+
+            | پلتفرم | فایل | راهنما |
+            |---------|------|--------|
+            | 🪟 ویندوز | `BPB-Easy-Config-Windows.exe` | دانلود و اجرا |
+            | 🍎 مک | `BPB-Easy-Config-macOS` | دانلود → `chmod +x` → اجرا |
+            | 🐧 لینوکس | `BPB-Easy-Config-Linux` | دانلود → `chmod +x` → اجرا |
+
+            ### Credits
+            - [BPB Worker Panel](https://github.com/bia-pain-bache/BPB-Worker-Panel)
+            - [Nova-Proxy](https://github.com/IRNova/Nova-Proxy) — الهام‌بخش Worker جدید
+            - [SenPaiScanner](https://github.com/MatinSenPai/SenPaiScanner)
+            - [v2ray-config-modifier](https://github.com/seramo/v2ray-config-modifier)
+
+            ---
+            Built by [mcoders](https://github.com/mcodersir)
+          draft: false
+          prerelease: false
+          files: |
+            artifacts/BPB-Easy-Config-Windows/*
+            artifacts/BPB-Easy-Config-macOS/*
+            artifacts/BPB-Easy-Config-Linux/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
