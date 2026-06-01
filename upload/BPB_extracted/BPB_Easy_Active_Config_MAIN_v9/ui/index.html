@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#111827" />
+  <title>BPB Easy Active Config MAIN v9</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="rail">
+      <div class="brand">
+        <div class="brand-mark">MC</div>
+        <div>
+          <h1>BPB Easy</h1>
+          <p>Active Config MAIN v9</p>
+        </div>
+      </div>
+      <nav class="steps" id="steps" aria-label="مراحل">
+        <button class="step active" data-step="0"><span>۰۱</span><b>شروع</b><small>هاب کامل و آفلاین</small></button>
+        <button class="step" data-step="1"><span>۰۲</span><b>ایمیل و Cloudflare</b><small>فقط لینک‌های ضروری</small></button>
+        <button class="step" data-step="2"><span>۰۳</span><b>Deploy</b><small>نصب Worker داخلی</small></button>
+        <button class="step" data-step="3"><span>۰۴</span><b>IP Quality</b><small>اسکن کم‌دردسر</small></button>
+        <button class="step" data-step="4"><span>۰۵</span><b>Config Test</b><small>تست واقعی‌تر خروجی</small></button>
+        <button class="step" data-step="5"><span>۰۶</span><b>خروجی</b><small>کپی کانفیگ فعال</small></button>
+      </nav>
+      <div class="made-by">
+        <b>ساخته شده توسط mcoders</b>
+        <span>github.com/mcodersir</span>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">بدون CDN خارجی • سورس‌های ادغام‌شده • رابط ریسپانسیو</p>
+          <h2 id="pageTitle">شروع ساده و مرحله‌ای</h2>
+        </div>
+        <div class="top-actions">
+          <button class="ghost" id="openOutputBtn">خروجی‌ها</button>
+          <button class="ghost" id="openIntegratedBtn">سورس‌های داخلی</button>
+          <button class="ghost" data-open-url="mcoders_github">mcoders</button>
+        </div>
+      </header>
+
+      <section class="panel active" data-panel="0">
+        <div class="hero-card">
+          <div>
+            <span class="pill">نسخه اصلی v9</span>
+            <h3>همه چیز از داخل همین نرم‌افزار جلو می‌رود</h3>
+            <p>کاربر فقط برای ایمیل پروژه و Cloudflare از نرم‌افزار خارج می‌شود. بقیه مسیر، یعنی Deploy داخلی BPB، گرفتن Subscription، اسکن کیفیت IP و ساخت کانفیگ خروجی، داخل همین Wizard انجام می‌شود.</p>
+            <div class="actions wrap"><span class="quality-badge">تست WebSocket/VLESS واقعی‌تر</span><span class="local-badge">CSS/JS/Icons کاملاً محلی</span></div>
+          </div>
+          <div class="mini-flow"><span>Email</span><i></i><span>Cloudflare</span><i></i><span>Deploy</span><i></i><span>Test</span><i></i><span>Config</span></div>
+        </div>
+        <div class="grid two">
+          <div class="line-card emphasis">
+            <span class="pill">قبل از شروع</span>
+            <h3>فقط این دو مورد را تیک بزن</h3>
+            <div class="checklist compact">
+              <label><input type="checkbox" id="emailOk"> ایمیل قابل‌دسترسی دارم؛ اگر تیم/پروژه Atomic Mail داده، همان ایمیل اختصاصی را استفاده می‌کنم.</label>
+              <label><input type="checkbox" id="lawOk"> این Worker و کانفیگ برای اکانت و استفاده مجاز خودم/تیم خودم است.</label>
+            </div>
+          </div>
+          <div class="line-card soft-card">
+            <span class="pill">تمرکز نسخه v9</span>
+            <h3>کمتر تنظیم، خروجی بهتر</h3>
+            <p>مسیر پیشنهادی برای تازه‌کارها: Deploy کن، لینک Subscription را Paste کن، بعد روی «شروع اجرا» بزن. حالت هوشمند اول کانفیگ‌های اصلی BPB را تست می‌کند و اگر لازم شد Clean IPهای آماده را هم وارد تست می‌کند.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="1">
+        <div class="grid two">
+          <div class="line-card emphasis">
+            <span class="pill">Atomic Mail / Email</span>
+            <h3>۱) ایمیل پروژه را آماده کن</h3>
+            <ol class="big-steps compact-ol"><li>اگر تیم بهت Atomic Mail داده، همان ایمیل را استفاده کن.</li><li>اگر ایمیل نداری، روی دکمه زیر بزن و ایمیل قابل‌دسترسی بساز.</li><li>همان ایمیل را برای Cloudflare وارد کن و رمز را نگه دار.</li></ol>
+            <button class="primary" data-open-url="atomic_mail">باز کردن Atomic Mail</button>
+          </div>
+          <div class="line-card emphasis">
+            <span class="pill">Cloudflare</span>
+            <h3>۲) ساخت حساب Cloudflare</h3>
+            <ol class="big-steps compact-ol"><li>روی «ثبت‌نام Cloudflare» بزن.</li><li>Email و Password را وارد کن.</li><li>وقتی وارد Dashboard شدی، همین نرم‌افزار را ادامه بده.</li><li>اگر صفحه انتخاب Account دیدی، Account خودت/تیمت را انتخاب کن.</li></ol>
+            <div class="actions wrap"><button class="primary" data-open-url="cloudflare_signup">ثبت‌نام Cloudflare</button><button class="ghost" data-open-url="cloudflare_dashboard">Dashboard</button><button class="ghost" data-open-url="cloudflare_workers_pages">Workers & Pages</button></div>
+            <label class="inline-check"><input type="checkbox" id="cfOk"> حساب Cloudflare آماده است</label>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="2">
+        <div class="grid two">
+          <div class="line-card emphasis">
+            <span class="pill">Deploy Assistant داخلی</span>
+            <h3>۳) نصب Worker داخلی BPB</h3>
+            <p>این بخش فایل Worker داخل پروژه را با Cloudflare API روی اکانت خودت Deploy می‌کند. اگر پنل/Worker آماده داری، مستقیم برو مرحله Subscription.</p>
+            <div class="guide-box danger-soft"><b>خطای رایج:</b><p>اگر مسیر خطا شامل <code>accounts/cfat_...</code> شد، یعنی Token را اشتباهی در فیلد Account ID گذاشتی. اول دکمه «تست Token و پیدا کردن Account ID» را بزن.</p></div>
+            <label>Cloudflare API Token<input class="text-input" id="cfToken" dir="ltr" placeholder="توکن Cloudflare را Paste کن" /></label>
+            <label>Account ID<input class="text-input" id="cfAccountId" dir="ltr" placeholder="خودکار پر می‌شود؛ اینجا Token نگذار" /></label>
+            <label>Worker Name<input class="text-input" id="workerName" dir="ltr" value="bpb-panel" /></label>
+            <label>UUID کانفیگ VLESS<input class="text-input" id="bpbUuid" dir="ltr" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" /></label>
+            <button class="ghost" id="genUuidBtn">ساخت UUID امن</button>
+            <label>Subscription Path<input class="text-input" id="subPath" dir="ltr" value="sub" /></label>
+            <label>Proxy IP اختیاری<input class="text-input" id="proxyIp" dir="ltr" placeholder="اختیاری؛ خالی بماند" /></label>
+            <div class="actions wrap"><button class="ghost" data-open-url="cloudflare_api_tokens">API Tokens</button><button class="ghost" id="verifyCfBtn">۱) تست Token و پیدا کردن Account ID</button><button class="primary" id="deployCfBtn">۲) Deploy فایل داخلی</button></div>
+            <pre class="result-box" id="cfDeployResult">اول API Token را Paste کن، بعد «تست Token» را بزن. اگر Account ID پیدا شد، Deploy را بزن.</pre>
+          </div>
+          <div class="line-card guide-card">
+            <span class="pill">دقیقاً کجا کلیک کند؟</span>
+            <h3>ساخت Token در Cloudflare</h3>
+            <ol class="big-steps compact-ol"><li>دکمه <b>API Tokens</b> را بزن.</li><li>در Cloudflare برو: <b>My Profile → API Tokens</b>.</li><li><b>Create Token</b> را بزن.</li><li>اگر قالب آماده مناسب دیدی استفاده کن؛ وگرنه <b>Create Custom Token</b>.</li><li>Permission: <b>Account → Workers Scripts → Edit</b>.</li><li>Account Resources: همان Account خودت/تیمت.</li><li><b>Continue to summary</b> و بعد <b>Create Token</b>.</li><li>Token را کپی کن و داخل نرم‌افزار Paste کن.</li></ol>
+            <div class="guide-box"><b>Subscription بعد از Deploy:</b><p>اگر نرم‌افزار لینک داد، همان را کپی کن. اگر لینک نداد: Cloudflare → Workers & Pages → bpb-panel → Visit، سپس مسیر <code>/sub</code> را باز کن.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="3">
+        <div class="grid two">
+          <div class="line-card emphasis">
+            <span class="pill">IP Quality Scanner</span>
+            <h3>۴) اسکن اختیاری، ولی دقیق‌تر</h3>
+            <p>کاربر تازه‌کار لازم نیست زیاد درگیر اسکن شود. اگر کانفیگ اصلی BPB جواب نداد، این بخش چند endpoint خوب پیدا می‌کند و به مرحله تست منتقل می‌کند.</p>
+            <textarea id="scannerIpText" class="textarea" placeholder="اختیاری: IP یا IP:Port، هر خط یکی\n104.16.72.162\n172.64.100.8:443" dir="ltr"></textarea>
+            <textarea id="scannerCidrText" class="textarea small" placeholder="اختیاری: CIDR محدود\n104.16.0.0/24" dir="ltr"></textarea>
+            <label>SNI/Host برای اسکن<input class="text-input" id="sniHost" dir="ltr" value="speed.cloudflare.com" /></label>
+            <div class="ports dense" id="scannerPorts"><span>پورت‌های تست کیفیت:</span><label><input type="checkbox" class="scan-port" value="443" checked>443</label><label><input type="checkbox" class="scan-port" value="8443" checked>8443</label><label><input type="checkbox" class="scan-port" value="2053" checked>2053</label><label><input type="checkbox" class="scan-port" value="2083" checked>2083</label><label><input type="checkbox" class="scan-port" value="2087" checked>2087</label><label><input type="checkbox" class="scan-port" value="2096" checked>2096</label><label><input type="checkbox" class="scan-port" value="80">80</label><label><input type="checkbox" class="scan-port" value="8080">8080</label><label><input type="checkbox" class="scan-port" value="8880">8880</label></div>
+            <label>تولید تصادفی IP کلادفلر<input type="number" id="scanRandomCount" value="160" min="0" max="5000" /></label>
+            <label>حداکثر endpoint برای اسکن<input type="number" id="ipLimit" value="900" min="1" max="10000" /></label>
+            <label>Timeout اسکن، ثانیه<input type="number" id="scanTimeout" value="4" min="2" max="20" /></label>
+            <label>تست همزمان IP<input type="number" id="scanWorkers" value="64" min="1" max="120" /></label>
+            <div class="actions wrap"><button class="primary big" id="scanIpBtn">اسکن کیفیت و ذخیره clean_ips.txt</button><button class="ghost" id="useCleanIpsBtn">استفاده از IPهای سالم در تست کانفیگ</button></div>
+          </div>
+          <div class="line-card"><span class="pill">نتیجه اسکن</span><pre class="result-box" id="ipScanResult">اگر Subscription اصلی جواب نداد، این اسکن را اجرا کن. خروجی سالم در output/clean_ips.txt ذخیره می‌شود.</pre></div>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="4">
+        <div class="grid two">
+          <div class="line-card emphasis">
+            <span class="pill">Subscription</span>
+            <h3>۵) لینک را Paste کن</h3>
+            <label>BPB Subscription URL<input class="text-input" id="subUrl" dir="ltr" placeholder="https://worker-name.account.workers.dev/sub" /></label>
+            <div class="actions wrap"><button class="ghost" id="pasteBtn">Paste</button><button class="ghost" id="fetchBtn">چک کردن لینک</button></div>
+            <pre class="result-box" id="fetchResult">لینک Subscription را وارد کن و «چک کردن لینک» را بزن.</pre>
+          </div>
+          <div class="line-card emphasis">
+            <span class="pill">Smart Tester</span>
+            <h3>۶) تولید و تست خروجی</h3>
+            <label class="radio-row"><input type="radio" name="mode" value="auto" checked> حالت هوشمند: اول BPB، اگر لازم شد Clean IP</label>
+            <label class="radio-row"><input type="radio" name="mode" value="base"> فقط تست کانفیگ‌های BPB</label>
+            <label class="radio-row"><input type="radio" name="mode" value="clean_ip"> فقط ترکیب با Clean IPهای واردشده/اسکن‌شده</label>
+            <textarea id="ipList" class="textarea" placeholder="برای Clean IP، هر خط یک IP یا IP:Port. اگر اسکن را زده باشی اینجا خودکار پر می‌شود." dir="ltr"></textarea>
+            <div class="ports dense"><span>پورت‌های تولید کانفیگ:</span><label><input type="checkbox" class="port" value="443" checked>443</label><label><input type="checkbox" class="port" value="8443" checked>8443</label><label><input type="checkbox" class="port" value="2053">2053</label><label><input type="checkbox" class="port" value="2083">2083</label><label><input type="checkbox" class="port" value="2087">2087</label><label><input type="checkbox" class="port" value="2096">2096</label></div>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="line-card"><span class="pill">تنظیمات تست</span><label>Timeout هر تست، ثانیه<input type="number" id="timeout" value="6" min="2" max="20" /></label><label>تعداد تست همزمان<input type="number" id="workers" value="32" min="1" max="80" /></label><label>حداکثر کانفیگ برای تست<input type="number" id="limit" value="1600" min="1" max="20000" /></label><label>تولید تصادفی IP در حالت هوشمند<input type="number" id="randomCount" value="240" min="0" max="5000" /></label></div>
+          <div class="line-card soft-card"><span class="pill">برای کاربر تازه‌کار</span><ol class="big-steps compact-ol"><li>لینک Subscription را Paste کن.</li><li>حالت هوشمند را دست نزن.</li><li>روی دکمه شروع اجرا بزن.</li><li>کانفیگ خروجی را از مرحله آخر کپی کن.</li></ol></div>
+        </div>
+        <div class="actions sticky-actions"><button class="primary big" id="runBtn">شروع اجرا و ساخت خروجی قابل تست</button></div>
+      </section>
+
+      <section class="panel" data-panel="5">
+        <div class="line-card final-card emphasis"><span class="pill">خروجی نهایی</span><h3>۷) کانفیگ فعال پیشنهادی</h3><p>بهترین کانفیگ در <code>output/best_active_config.txt</code> ذخیره می‌شود. همه کانفیگ‌های OK هم در <code>output/working_configs.txt</code> می‌آیند.</p><textarea id="bestConfig" class="textarea output" dir="ltr" readonly placeholder="هنوز خروجی ساخته نشده."></textarea><div class="actions wrap"><button class="primary" id="copyBestBtn">کپی کانفیگ</button><button class="ghost" id="openOutputBtn2">باز کردن پوشه خروجی</button></div></div>
+        <div class="results" id="results"></div>
+      </section>
+
+      <footer class="footer-actions"><button class="ghost" id="prevBtn">مرحله قبل</button><button class="primary" id="nextBtn">مرحله بعد</button></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
