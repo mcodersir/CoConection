@@ -734,7 +734,7 @@ function bufToHex(buf) {
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-/** Generate a session token using HMAC-SHA256 */
+/** Generate a session token: timestamp.randomHex.signature */
 async function generateSessionToken(secret) {
   const timestamp = Date.now().toString();
   const randomBytes = crypto.getRandomValues(new Uint8Array(16));
@@ -742,8 +742,26 @@ async function generateSessionToken(secret) {
   const key = await crypto.subtle.importKey(
     'raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
   );
-  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(timestamp + randomHex));
-  return bufToHex(sig);
+  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(timestamp + '.' + randomHex));
+  return timestamp + '.' + randomHex + '.' + bufToHex(sig);
+}
+
+/** Verify a session token without KV */
+async function verifySessionToken(token, env) {
+  const parts = token.split('.');
+  if (parts.length !== 3) return false;
+  const [timestamp, randomHex, signature] = parts;
+  const tokenTime = parseInt(timestamp);
+  if (isNaN(tokenTime) || Date.now() - tokenTime > 86400000) return false;
+  const secret = env.PASSWORD || 'default-secret';
+  try {
+    const key = await crypto.subtle.importKey(
+      'raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+    );
+    const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(timestamp + '.' + randomHex));
+    const expectedSig = bufToHex(sig);
+    return timingSafeEqual(signature, expectedSig);
+  } catch { return false; }
 }
 
 /** Parse cookies from request */
@@ -779,29 +797,38 @@ async function checkAuth(request, env) {
   const cookies = parseCookies(request);
   const token = cookies['cc_session'];
   if (!token) return false;
-  try {
-    const stored = await env.KV.get('session_' + token);
-    return stored !== null;
-  } catch {
-    return false;
+  // If KV is available, check session there
+  if (env.KV) {
+    try {
+      const stored = await env.KV.get('session_' + token);
+      if (stored !== null) return true;
+    } catch {}
   }
+  // Fallback: verify HMAC-signed token (works without KV)
+  return verifySessionToken(token, env);
 }
 
 async function createSession(env) {
   const secret = env.PASSWORD || 'default-secret';
   const token = await generateSessionToken(secret);
-  // Store session in KV with 24h TTL
-  await env.KV.put('session_' + token, JSON.stringify({ created: Date.now() }), { expirationTtl: 86400 });
+  // Try to store session in KV with 24h TTL (optional)
+  if (env.KV) {
+    try {
+      await env.KV.put('session_' + token, JSON.stringify({ created: Date.now() }), { expirationTtl: 86400 });
+    } catch {}
+  }
   return token;
 }
 
 // ─── CONFIG MANAGEMENT ─────────────────────────────────────────────────────────
 
 async function getConfig(env) {
-  try {
-    const raw = await env.KV.get('config');
-    if (raw) return JSON.parse(raw);
-  } catch {}
+  if (env.KV) {
+    try {
+      const raw = await env.KV.get('config');
+      if (raw) return JSON.parse(raw);
+    } catch {}
+  }
   // Default config from env vars
   return {
     UUID: env.UUID || '',
@@ -815,7 +842,11 @@ async function getConfig(env) {
 }
 
 async function saveConfig(env, config) {
-  await env.KV.put('config', JSON.stringify(config));
+  if (env.KV) {
+    try {
+      await env.KV.put('config', JSON.stringify(config));
+    } catch {}
+  }
 }
 
 // ─── SUBSCRIPTION GENERATION ───────────────────────────────────────────────────
