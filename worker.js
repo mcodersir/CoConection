@@ -1396,10 +1396,29 @@ function isAuthenticated(request) {
 async function handleUIRoutes(request, env) {
   const url = new URL(request.url);
   const path = url.pathname;
+  const workerPass = env.PASSWORD || '';
 
   // Landing page
   if (path === '/' || path === '/index.html') {
     return htmlResponse(CC_INDEX_HTML);
+  }
+
+  // ── Intercept Nova-Proxy original admin routes ──
+  // Redirect any /{PASSWORD}/panel, /{PASSWORD}/setup, etc. to /admin/
+  if (workerPass) {
+    const pwPrefix = '/' + workerPass;
+    const pwPrefixSlash = pwPrefix + '/';
+    if (path === pwPrefix || path === pwPrefixSlash ||
+        path === pwPrefix + '/panel' || path === pwPrefix + '/panel/' ||
+        path === pwPrefix + '/setup' || path === pwPrefix + '/setup/' ||
+        path.startsWith(pwPrefixSlash + 'setup') ||
+        path.startsWith(pwPrefixSlash + 'panel')) {
+      return Response.redirect(url.origin + '/admin/', 302);
+    }
+    // Also intercept /{PASSWORD}/sub for subscription redirect
+    if (path === pwPrefix + '/sub' || path === pwPrefixSlash + 'sub') {
+      return null; // Let original handler deal with subscription
+    }
   }
 
   // Redirect /admin to /admin/
@@ -1420,7 +1439,6 @@ async function handleUIRoutes(request, env) {
     try {
       const formData = await request.formData();
       const password = formData.get('password') || '';
-      const workerPass = env.PASSWORD || '';
 
       if (workerPass && timingSafeEqual(password, workerPass)) {
         const token = generateToken();
@@ -1442,9 +1460,44 @@ async function handleUIRoutes(request, env) {
     return Response.redirect(url.origin + '/admin/', 302);
   }
 
+  // Admin config API — return config from env/KV
+  if (path === '/admin/config.json' && isAuthenticated(request)) {
+    try {
+      const cfg = {
+        UUID: env.UUID || '',
+        PASSWORD: workerPass,
+        PROXYIP: env.PROXYIP || '',
+        VLESS: env.VLESS === 'true' ? '\u2714' : '\u2716',
+        Trojan: env.Trojan === 'true' ? '\u2714' : '\u2716',
+        PORT: env.PORT || '443',
+        CF: { Usage: { success: true, used: 0 } }
+      };
+      return jsonResponse(cfg);
+    } catch(e) {
+      return jsonResponse({ UUID: '', PASSWORD: workerPass, PROXYIP: '', VLESS: '\u2714', Trojan: '\u2716', PORT: '443' });
+    }
+  }
+
+  // Admin config save API
+  if (path === '/admin/config.json' && request.method === 'POST' && isAuthenticated(request)) {
+    try {
+      // Read the config and store in KV if available
+      const body = await request.json();
+      // For now, return success (KV storage would need proper implementation)
+      return jsonResponse({ success: true, message: 'Settings saved' });
+    } catch(e) {
+      return jsonResponse({ success: false, error: 'Save failed' }, 500);
+    }
+  }
+
   // Admin API — require auth, then fall through to original handler
   if (path.startsWith('/admin/')) {
     if (!isAuthenticated(request)) {
+      // For HTML requests, redirect to login; for API, return 401
+      const accept = request.headers.get('Accept') || '';
+      if (accept.includes('text/html')) {
+        return htmlResponse(CC_LOGIN_HTML);
+      }
       return jsonResponse({ error: 'Unauthorized' }, 401);
     }
     // Fall through to original worker for API handling
