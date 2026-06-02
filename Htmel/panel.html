@@ -178,10 +178,6 @@ textarea.form-input{height:auto;padding:12px;resize:vertical;min-height:100px}
 </div>
 
 <div class="sidebar-footer">
-<button class="btn btn-ghost" style="width:100%;margin-bottom:8px" onclick="location.href='/admin/logout'">
-<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-خروج
-</button>
 <button class="theme-toggle" onclick="toggleTheme()">
 <svg viewBox="0 0 24 24" id="sidebarThemeIcon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
 <span id="sidebarThemeLabel">حالت تاریک</span>
@@ -197,7 +193,7 @@ textarea.form-input{height:auto;padding:12px;resize:vertical;min-height:100px}
 <div class="page-header">
 <h1 class="page-title">داشبورد</h1>
 <div class="page-actions">
-<a href="/" class="btn btn-ghost btn-sm">
+<a href="./" class="btn btn-ghost btn-sm">
 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
 بازدید سایت
 </a>
@@ -426,7 +422,7 @@ if(url){navigator.clipboard.writeText(url);showToast('لینک محدود کپی
 // ── INIT DATA ──
 (async function(){
 try{
-const res=await fetch('/admin/config.json');
+const res=await fetch('./admin/config.json');
 if(res.ok){
 const cfg=await res.json();
 // Populate settings
@@ -507,7 +503,7 @@ VLESS:document.getElementById('setProtocol').value==='vless'?'\u2714':'\u2716',
 Trojan:document.getElementById('setProtocol').value==='trojan'?'\u2714':'\u2716',
 PORT:document.getElementById('setPort').value
 };
-const res=await fetch('/admin/config.json',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cfg)});
+const res=await fetch('./admin/config.json',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cfg)});
 if(res.ok)showToast('تنظیمات ذخیره شد!');
 else showToast('خطا در ذخیره');
 }catch(e){showToast('خطا در اتصال')}

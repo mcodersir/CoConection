@@ -88,10 +88,10 @@ btn.disabled=true;
 btn.textContent='در حال ورود...';
 err.classList.remove('show');
 try{
-const res=await fetch('/admin/login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'password='+encodeURIComponent(pw)});
+const res=await fetch('./login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'password='+encodeURIComponent(pw)});
 if(res.ok){
 const data=await res.json();
-if(data.success){window.location.href='/admin/';return;}
+if(data.success){window.location.href='./admin/';return;}
 }
 err.textContent='رمز عبور اشتباه است.';
 err.classList.add('show');
