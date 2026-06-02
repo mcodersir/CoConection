@@ -1,0 +1,187 @@
+name: Build & Release CoConection
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            artifact: CoConection-Windows
+            ext: .exe
+          - os: macos-latest
+            artifact: CoConection-macOS
+            ext: ''
+          - os: ubuntu-latest
+            artifact: CoConection-Linux
+            ext: ''
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build executable (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          pyinstaller --name "CoConection" ^
+            --onefile ^
+            --console ^
+            --add-data "ui;ui" ^
+            --add-data "integrated_sources;integrated_sources" ^
+            --add-data "examples;examples" ^
+            --add-data "VERSION.txt;." ^
+            --add-data "LICENSE;." ^
+            --hidden-import core ^
+            --hidden-import cloudflare_deployer ^
+            --hidden-import nova_core ^
+            --hidden-import json ^
+            --hidden-import mimetypes ^
+            --hidden-import socket ^
+            --hidden-import threading ^
+            --hidden-import webbrowser ^
+            --hidden-import http.server ^
+            --hidden-import pathlib ^
+            --hidden-import urllib.parse ^
+            --hidden-import ssl ^
+            --hidden-import concurrent.futures ^
+            --hidden-import ipaddress ^
+            --hidden-import base64 ^
+            --hidden-import secrets ^
+            --hidden-import datetime ^
+            --hidden-import dataclasses ^
+            --hidden-import re ^
+            --hidden-import random ^
+            --hidden-import time ^
+            --hidden-import subprocess ^
+            --paths src ^
+            --noupx ^
+            --clean ^
+            start.py
+        shell: cmd
+
+      - name: Build executable (macOS/Linux)
+        if: runner.os != 'Windows'
+        run: |
+          pyinstaller --name "CoConection" \
+            --onefile \
+            --console \
+            --add-data "ui:ui" \
+            --add-data "integrated_sources:integrated_sources" \
+            --add-data "examples:examples" \
+            --add-data "VERSION.txt:." \
+            --add-data "LICENSE:." \
+            --hidden-import core \
+            --hidden-import cloudflare_deployer \
+            --hidden-import nova_core \
+            --hidden-import json \
+            --hidden-import mimetypes \
+            --hidden-import socket \
+            --hidden-import threading \
+            --hidden-import webbrowser \
+            --hidden-import http.server \
+            --hidden-import pathlib \
+            --hidden-import urllib.parse \
+            --hidden-import ssl \
+            --hidden-import concurrent.futures \
+            --hidden-import ipaddress \
+            --hidden-import base64 \
+            --hidden-import secrets \
+            --hidden-import datetime \
+            --hidden-import dataclasses \
+            --hidden-import re \
+            --hidden-import random \
+            --hidden-import time \
+            --hidden-import subprocess \
+            --paths src \
+            --noupx \
+            --clean \
+            start.py
+        shell: bash
+
+      - name: Rename artifact
+        shell: bash
+        run: |
+          cd dist
+          mv CoConection${{ matrix.ext }} ${{ matrix.artifact }}${{ matrix.ext }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: dist/${{ matrix.artifact }}${{ matrix.ext }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: List artifacts
+        run: find artifacts -type f -ls
+
+      - name: Create or update release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: CoConection v3.0
+          body: |
+            ## CoConection v3.0
+
+            ### رابط کاربری جدید، قابلیت‌های بیشتر
+
+            تغییرات اصلی:
+            - **تم دارک/لایت** — تغییر تم با یک کلیک، ذخیره‌شده در مرورگر
+            - **استایل خطی مینیمال** — آیکون‌های SVG، طراحی تمیز و مدرن
+            - **ساخت کانفیگ سفارشی** — حجم و زمان دلخواه، پروتکل و پورت قابل تنظیم
+            - **Nova Easy Mode** — پیش‌اسکن، رتبه‌بندی و خروجی آماده import
+            - **SSE Streaming** — نتایج زنده، هر کانفیگ به محض تست نمایش داده می‌شود
+            - **ذخیره خودکار** — تنظیمات و IPها ذخیره می‌شوند
+            - **خروجی‌های متنوع** — best config, working configs, Clash/Mihomo YAML
+
+            ### دانلود
+
+            | پلتفرم | فایل | راهنما |
+            |---------|------|--------|
+            | ویندوز | `CoConection-Windows.exe` | دانلود و اجرا |
+            | مک | `CoConection-macOS` | دانلود ← `chmod +x` ← اجرا |
+            | لینوکس | `CoConection-Linux` | دانلود ← `chmod +x` ← اجرا |
+
+            ### Credits
+            - [BPB Worker Panel](https://github.com/bia-pain-bache/BPB-Worker-Panel)
+            - [Nova-Proxy](https://github.com/IRNova/Nova-Proxy)
+            - [SenPaiScanner](https://github.com/MatinSenPai/SenPaiScanner)
+            - [v2ray-config-modifier](https://github.com/seramo/v2ray-config-modifier)
+
+            ---
+            Built by [mcoders](https://github.com/mcodersir)
+          draft: false
+          prerelease: false
+          files: |
+            artifacts/CoConection-Windows/*
+            artifacts/CoConection-macOS/*
+            artifacts/CoConection-Linux/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

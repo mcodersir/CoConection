@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>CoConection</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-theme="dark">
+  <div class="app">
+    <!-- Top Navigation -->
+    <nav class="navbar">
+      <div class="nav-brand">
+        <svg class="nav-logo" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+          <path d="M10 16h12M16 10v12M12 12l8 8M20 12l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+          <circle cx="16" cy="16" r="3" fill="currentColor" opacity="0.8"/>
+        </svg>
+        <span class="nav-title">CoConection</span>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" title="تغییر تم">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+        <a class="nav-link" href="https://github.com/mcodersir" target="_blank" title="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-text">
+        <span class="badge">Nova Easy Mode</span>
+        <h1>اتصال ساده، کانفیگ سالم</h1>
+        <p>Cloudflare را وصل کن، Worker را Deploy کن، Start را بزن. نرم‌افزار خودش کانفیگ‌ها را می‌سازد، IPهای بهتر را تست می‌کند و خروجی قابل import می‌دهد.</p>
+      </div>
+      <div class="hero-links">
+        <button class="btn-outlined" data-open="atomic_mail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,4 12,13 2,4"/></svg>
+          Atomic Mail
+        </button>
+        <button class="btn-outlined" data-open="cloudflare_signup">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+          ثبت‌نام Cloudflare
+        </button>
+        <button class="btn-outlined" id="openOutputBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          پوشه خروجی
+        </button>
+      </div>
+    </section>
+
+    <!-- Steps -->
+    <main class="steps">
+
+      <!-- Step 1: Deploy -->
+      <section class="step" id="step1">
+        <div class="step-header">
+          <span class="step-num">۱</span>
+          <div>
+            <h2>اتصال و Deploy</h2>
+            <p>اگر Worker را قبلاً داری، این مرحله را رد کن.</p>
+          </div>
+          <button class="step-toggle" aria-label="باز/بسته">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+        <div class="step-body">
+          <div class="grid-2">
+            <div class="form-section">
+              <div class="field">
+                <label>Cloudflare API Token</label>
+                <input id="cfToken" type="text" dir="ltr" placeholder="توکن را اینجا وارد کن" />
+              </div>
+              <div class="field">
+                <label>Account ID</label>
+                <input id="cfAccountId" type="text" dir="ltr" placeholder="بعد از تست توکن، خودکار پر می‌شود" />
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label>Worker Name</label>
+                  <input id="workerName" type="text" dir="ltr" value="bpb-nova-panel" />
+                </div>
+                <div class="field">
+                  <label>Subscription Path</label>
+                  <input id="subPath" type="text" dir="ltr" value="sub" />
+                </div>
+              </div>
+              <div class="field">
+                <label>UUID برای VLESS</label>
+                <input id="bpbUuid" type="text" dir="ltr" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" />
+              </div>
+              <button class="btn-text" id="genUuidBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                ساخت UUID
+              </button>
+              <div class="field">
+                <label>Proxy IP اختیاری</label>
+                <input id="proxyIp" type="text" dir="ltr" placeholder="اختیاری؛ مثلاً host:port" />
+              </div>
+              <div class="btn-group">
+                <button class="btn-primary" id="verifyCfBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  تست توکن
+                </button>
+                <button class="btn-accent" id="deployCfBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  Deploy Worker
+                </button>
+              </div>
+              <pre class="output-box" id="cfResult">توکن، Account ID و UUID را وارد کن؛ سپس Deploy را بزن.</pre>
+            </div>
+            <aside class="guide-card">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                راهنمای Cloudflare
+              </h3>
+              <ol>
+                <li>روی «ثبت‌نام Cloudflare» بزن و وارد حساب شو.</li>
+                <li>به API Tokens برو: <button class="link-btn" data-open="cloudflare_api_tokens">باز کردن</button></li>
+                <li>Create Token را بزن.</li>
+                <li>Permission: <strong>Account → Workers Scripts → Edit</strong></li>
+                <li>توکن را Paste کن و «تست توکن» را بزن.</li>
+                <li>اگر Account ID خودکار نیامد، از Workers & Pages کپی کن.</li>
+              </ol>
+              <button class="btn-outlined full" data-open="cloudflare_workers_pages">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                باز کردن Workers & Pages
+              </button>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 2: Config & Scan -->
+      <section class="step" id="step2">
+        <div class="step-header">
+          <span class="step-num">۲</span>
+          <div>
+            <h2>گرفتن کانفیگ سالم</h2>
+            <p>حالت پیش‌فرض Nova Easy است؛ اسکن و تست را خودش انجام می‌دهد.</p>
+          </div>
+          <button class="step-toggle" aria-label="باز/بسته">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+        <div class="step-body">
+          <div class="grid-2">
+            <div class="form-section">
+              <div class="field">
+                <label>Subscription URL</label>
+                <input id="subUrl" type="text" dir="ltr" placeholder="https://your-worker.workers.dev/sub" />
+              </div>
+              <div class="btn-group compact">
+                <button class="btn-outlined small" id="pasteBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Paste
+                </button>
+                <button class="btn-outlined small" id="fetchBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  Check
+                </button>
+              </div>
+              <div class="mode-select">
+                <label class="mode-option featured">
+                  <input type="radio" name="mode" value="nova_easy" checked />
+                  <span class="mode-label">Nova Easy — پیشنهادی</span>
+                </label>
+                <label class="mode-option">
+                  <input type="radio" name="mode" value="auto" />
+                  <span class="mode-label">Smart قدیمی</span>
+                </label>
+                <label class="mode-option">
+                  <input type="radio" name="mode" value="clean_ip" />
+                  <span class="mode-label">فقط Clean IP</span>
+                </label>
+              </div>
+              <details class="advanced-section">
+                <summary>تنظیمات پیشرفته</summary>
+                <div class="field">
+                  <label>IP List اختیاری</label>
+                  <textarea id="ipList" dir="ltr" rows="3" placeholder="اگر IP داری، هر خط یکی؛ اگر نداری خالی بماند."></textarea>
+                </div>
+                <div class="ports-row">
+                  <span class="ports-label">Ports</span>
+                  <label class="port-chip"><input type="checkbox" class="port" value="443" checked />443</label>
+                  <label class="port-chip"><input type="checkbox" class="port" value="8443" checked />8443</label>
+                  <label class="port-chip"><input type="checkbox" class="port" value="2053" checked />2053</label>
+                  <label class="port-chip"><input type="checkbox" class="port" value="2083" checked />2083</label>
+                  <label class="port-chip"><input type="checkbox" class="port" value="2087" />2087</label>
+                  <label class="port-chip"><input type="checkbox" class="port" value="2096" />2096</label>
+                </div>
+                <div class="settings-row">
+                  <label>Timeout <input type="number" id="timeout" value="7" min="2" max="20" /></label>
+                  <label>Workers <input type="number" id="workers" value="48" min="1" max="80" /></label>
+                  <label>Limit <input type="number" id="limit" value="2600" min="1" max="20000" /></label>
+                  <label>Random IPs <input type="number" id="randomCount" value="420" min="0" max="5000" /></label>
+                </div>
+              </details>
+              <button class="btn-primary big" id="runBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Start — خروجی کانفیگ سالم
+              </button>
+            </div>
+            <aside class="form-section side-card">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                اسکنر اختیاری
+              </h3>
+              <p class="muted">لازم نیست کاربر عادی اینجا کاری کند. Nova Easy خودش پیش‌اسکن انجام می‌دهد.</p>
+              <div class="field">
+                <label>IP/CIDR</label>
+                <textarea id="scannerIpText" dir="ltr" rows="2" placeholder="104.16.0.0/24"></textarea>
+              </div>
+              <div class="settings-row">
+                <label>Random <input type="number" id="scanRandomCount" value="240" min="0" max="5000" /></label>
+                <label>Timeout <input type="number" id="scanTimeout" value="4" min="2" max="20" /></label>
+              </div>
+              <div class="btn-group compact">
+                <button class="btn-accent small" id="scanIpBtn">Scan</button>
+                <button class="btn-outlined small" id="useCleanIpsBtn">استفاده از یافته‌ها</button>
+              </div>
+              <pre class="output-box small" id="ipScanResult">اختیاری است؛ برای شروع فقط Start را بزن.</pre>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 3: Custom Config Builder -->
+      <section class="step" id="step3">
+        <div class="step-header">
+          <span class="step-num">۳</span>
+          <div>
+            <h2>ساخت کانفیگ سفارشی</h2>
+            <p>کانفیگ اضافی با حجم و زمان دلخواه بساز.</p>
+          </div>
+          <button class="step-toggle" aria-label="باز/بسته">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+        <div class="step-body">
+          <div class="custom-config-grid">
+            <div class="form-section">
+              <div class="field">
+                <label>نام کانفیگ</label>
+                <input id="customConfigName" type="text" dir="ltr" placeholder="My-Config" value="" />
+              </div>
+              <div class="field-row-3">
+                <div class="field">
+                  <label>حجم (GB)</label>
+                  <input id="customVolumeGB" type="number" min="0" value="0" placeholder="0 = نامحدود" />
+                </div>
+                <div class="field">
+                  <label>زمان (روز)</label>
+                  <input id="customExpiryDays" type="number" min="0" value="0" placeholder="0 = نامحدود" />
+                </div>
+                <div class="field">
+                  <label>پروتکل</label>
+                  <select id="customProtocol" dir="ltr">
+                    <option value="vless">VLESS</option>
+                    <option value="trojan">Trojan</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field-row-3">
+                <div class="field">
+                  <label>پورت</label>
+                  <select id="customPort" dir="ltr">
+                    <option value="443">443 (TLS)</option>
+                    <option value="8443">8443 (TLS)</option>
+                    <option value="2053">2053 (TLS)</option>
+                    <option value="2083">2083 (TLS)</option>
+                    <option value="2087">2087 (TLS)</option>
+                    <option value="2096">2096 (TLS)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>شبکه</label>
+                  <select id="customNetwork" dir="ltr">
+                    <option value="ws">WebSocket</option>
+                    <option value="grpc">gRPC</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>SNI</label>
+                  <input id="customSni" type="text" dir="ltr" placeholder="خودکار از Worker" />
+                </div>
+              </div>
+              <div class="field">
+                <label>Path (اختیاری)</label>
+                <input id="customPath" type="text" dir="ltr" placeholder="خودکار از UUID" />
+              </div>
+              <div class="field">
+                <label>IP تمیز (اختیاری)</label>
+                <input id="customCleanIp" type="text" dir="ltr" placeholder="مثلاً 104.16.0.1 یا خالی = Worker اصلی" />
+              </div>
+              <button class="btn-accent" id="buildCustomBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                ساخت کانفیگ سفارشی
+              </button>
+              <div class="custom-output-area" id="customOutputArea" style="display:none">
+                <div class="custom-result-header">
+                  <span class="custom-badge" id="customBadge">VLESS-WS-443</span>
+                  <span class="custom-meta" id="customMeta">— نامحدود — نامحدود</span>
+                </div>
+                <textarea id="customConfigOutput" class="output-textarea" dir="ltr" readonly></textarea>
+                <div class="btn-group compact">
+                  <button class="btn-primary small" id="copyCustomBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    کپی
+                  </button>
+                  <button class="btn-outlined small" id="addToListBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    اضافه به لیست خروجی
+                  </button>
+                </div>
+              </div>
+            </div>
+            <aside class="guide-card">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                راهنمای کانفیگ سفارشی
+              </h3>
+              <ul>
+                <li><strong>حجم 0</strong> = حجم نامحدود</li>
+                <li><strong>زمان 0</strong> = زمان نامحدود</li>
+                <li>نام کانفیگ برای شناسایی در کلاینت استفاده می‌شود</li>
+                <li>IP تمیز اختیاری است؛ اگر وارد نکنی از Worker اصلی استفاده می‌شود</li>
+                <li>هر کانفیگ سفارشی UUID جداگانه دارد</li>
+              </ul>
+              <div class="info-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span>کانفیگ‌های سفارشی مستقیماً از Worker تو استفاده می‌کنند و محدودیت‌ها در نام کانفیگ ذکر می‌شوند.</span>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 4: Results -->
+      <section class="step" id="step4">
+        <div class="step-header">
+          <span class="step-num">۴</span>
+          <div>
+            <h2>نتایج و کپی</h2>
+            <p>فایل اصلی برای import: <strong>output/nova_best_config_only.txt</strong></p>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="form-section">
+            <div id="liveProgress" class="progress-section" style="display:none">
+              <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+              <p id="progressText">در حال تست...</p>
+            </div>
+            <div class="field">
+              <label>بهترین کانفیگ</label>
+              <textarea id="bestConfig" class="output-textarea" dir="ltr" readonly placeholder="بعد از Start، کانفیگ سالم اینجا می‌آید."></textarea>
+            </div>
+            <div class="btn-group">
+              <button class="btn-primary" id="copyBestBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                کپی کانفیگ
+              </button>
+              <button class="btn-outlined" id="openOutputBtn2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                پوشه خروجی
+              </button>
+            </div>
+          </div>
+          <div class="results-list" id="results"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <span>ساخته شده توسط <a href="https://github.com/mcodersir" target="_blank">mcoders</a></span>
+      <span class="footer-sep">|</span>
+      <span>سورس شفاف، بدون کد مبهم و بدون CDN خارجی</span>
+    </footer>
+
+    <div id="toast" class="toast"></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
