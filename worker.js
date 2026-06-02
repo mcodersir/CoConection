@@ -1,4 +1,4 @@
-// CoConection Worker — Clean Rewrite
+// CoConection Worker v1.2 — Bulletproof Edition
 // No setup wizard. No redirect. Environment variables only.
 
 // ─── HTML TEMPLATES ───────────────────────────────────────────────────────────
@@ -110,11 +110,11 @@ GitHub
 </nav>
 <section class="hero">
 <div class="hero-content">
-<div class="badge"><span class="badge-dot"></span> نسخه ۱.۱ — آماده استفاده</div>
+<div class="badge"><span class="badge-dot"></span> نسخه ۱.۲ — آماده استفاده</div>
 <h1>اتصال هوشمند،<br><span>رابط تمیز</span></h1>
 <p>CoConection یک پنل پروکسی مینیمال و واکنش‌گرا بر پایه Nova-Proxy است. رابط کاربری خطی، دارک/لایت، بدون وابستگی خارجی.</p>
 <div class="hero-actions">
-<a href="/admin" class="btn btn-primary">
+<a href="/admin/" class="btn btn-primary">
 <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
 ورود به پنل
 </a>
@@ -167,7 +167,7 @@ GitHub
 <footer class="footer">
 <div class="footer-inner">
 <div class="footer-left">
-سازنده: <a href="https://github.com/mcodersir" target="_blank">M_CODER</a> &nbsp;·&nbsp; بیس: <a href="https://github.com/IRNova/Nova-Proxy" target="_blank">Nova-Proxy</a>
+سازنده: <a href="https://github.com/mcodersir" target="_blank">M_CODER</a> &middot; بیس: <a href="https://github.com/IRNova/Nova-Proxy" target="_blank">Nova-Proxy</a>
 </div>
 <div class="footer-right">
 <a href="https://github.com/mcodersir/CoConection" target="_blank">GitHub</a>
@@ -178,9 +178,9 @@ GitHub
 const root=document.documentElement,btn=document.getElementById('themeBtn'),icon=document.getElementById('themeIcon');
 function setTheme(t){root.dataset.theme=t;localStorage.setItem('cc-theme',t);icon.innerHTML=t==='dark'?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';}
 setTheme(localStorage.getItem('cc-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
-btn.onclick=()=>setTheme(root.dataset.theme==='dark'?'light':'dark');
-const nav=document.getElementById('nav');
-addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>20));
+btn.onclick=function(){setTheme(root.dataset.theme==='dark'?'light':'dark');};
+var nav=document.getElementById('nav');
+addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>20);});
 </script>
 </body>
 </html>`;
@@ -256,13 +256,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:
 <script>
 async function handleLogin(e){
 e.preventDefault();
-const btn=document.getElementById('submitBtn');
-const err=document.getElementById('errorMsg');
-const pw=document.getElementById('password').value;
+var btn=document.getElementById('submitBtn');
+var err=document.getElementById('errorMsg');
+var pw=document.getElementById('password').value;
 btn.disabled=true;btn.textContent='در حال ورود...';err.classList.remove('show');
 try{
-const res=await fetch('/admin/login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'password='+encodeURIComponent(pw)});
-if(res.ok){const data=await res.json();if(data.success){window.location.href='/admin/';return;}}
+var res=await fetch('/admin/login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'password='+encodeURIComponent(pw)});
+if(res.ok){var data=await res.json();if(data.success){window.location.href='/admin/';return;}}
 err.textContent='رمز عبور اشتباه است.';err.classList.add('show');
 }catch(t){err.textContent='خطا در اتصال.';err.classList.add('show');}
 btn.disabled=false;btn.textContent='ورود';
@@ -339,7 +339,6 @@ input,select,textarea{font-family:inherit}
 .form-input::placeholder{color:var(--muted);opacity:.5}
 select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a7a85' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 12px center}
 textarea.form-input{height:auto;padding:12px;resize:vertical;min-height:100px}
-.form-hint{font-size:.72rem;color:var(--muted)}
 .btn{height:38px;padding:0 16px;border-radius:8px;font-size:.82rem;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;transition:all .15s}
 .btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .btn-primary{background:var(--accent);color:#fff}
@@ -400,22 +399,22 @@ textarea.form-input{height:auto;padding:12px;resize:vertical;min-height:100px}
 </div>
 <div class="nav-section">
 <div class="nav-label">عمومی</div>
-<div class="nav-item active" onclick="showPage('dashboard')">
+<div class="nav-item active" data-page="dashboard" onclick="showPage(this,'dashboard')">
 <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
 داشبورد
 </div>
-<div class="nav-item" onclick="showPage('configs')">
+<div class="nav-item" data-page="configs" onclick="showPage(this,'configs')">
 <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
 کانفیگ‌ها
 </div>
-<div class="nav-item" onclick="showPage('custom')">
+<div class="nav-item" data-page="custom" onclick="showPage(this,'custom')">
 <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
 ساخت کانفیگ محدود
 </div>
 </div>
 <div class="nav-section">
 <div class="nav-label">تنظیمات</div>
-<div class="nav-item" onclick="showPage('settings')">
+<div class="nav-item" data-page="settings" onclick="showPage(this,'settings')">
 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
 تنظیمات Worker
 </div>
@@ -597,119 +596,93 @@ textarea.form-input{height:auto;padding:12px;resize:vertical;min-height:100px}
 <span id="toastMsg">کپی شد!</span>
 </div>
 <script>
-const root=document.documentElement;
+var root=document.documentElement;
 function setTheme(t){
 root.dataset.theme=t;
 localStorage.setItem('cc-theme',t);
-const icon=document.getElementById('sidebarThemeIcon');
-const label=document.getElementById('sidebarThemeLabel');
-if(icon){
-icon.innerHTML=t==='dark'?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
-}
-if(label)label.textContent=t==='dark'?'حالت روشن':'حالت تاریک';
+var icon=document.getElementById('sidebarThemeIcon');
+var label=document.getElementById('sidebarThemeLabel');
+if(icon){icon.innerHTML=t==='dark'?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';}
+if(label){label.textContent=t==='dark'?'حالت روشن':'حالت تاریک';}
 }
 setTheme(localStorage.getItem('cc-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
-function toggleTheme(){setTheme(root.dataset.theme==='dark'?'light':'dark')}
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show')}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show')}
-function showPage(name){
-document.querySelectorAll('[id^="page-"]').forEach(p=>p.style.display='none');
+function toggleTheme(){setTheme(root.dataset.theme==='dark'?'light':'dark');}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+function showPage(el,name){
+document.querySelectorAll('[id^="page-"]').forEach(function(p){p.style.display='none';});
 document.getElementById('page-'+name).style.display='block';
-document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-event.currentTarget.classList.add('active');
+document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+el.classList.add('active');
 closeSidebar();
 }
 function showToast(msg){
-const t=document.getElementById('toast');
+var t=document.getElementById('toast');
 document.getElementById('toastMsg').textContent=msg;
 t.classList.add('show');
-setTimeout(()=>t.classList.remove('show'),2500);
+setTimeout(function(){t.classList.remove('show');},2500);
 }
 function copySub(){
-const url=document.getElementById('mainSubUrl').textContent;
+var url=document.getElementById('mainSubUrl').textContent;
 if(url&&url!=='—'){navigator.clipboard.writeText(url);showToast('لینک اشتراک کپی شد!');}
 }
 function copyBuilder(){
-const url=document.getElementById('builderUrl').textContent;
+var url=document.getElementById('builderUrl').textContent;
 if(url){navigator.clipboard.writeText(url);showToast('لینک محدود کپی شد!');}
 }
-(async function(){
-try{
-const res=await fetch('/admin/config.json');
-if(res.ok){
-const cfg=await res.json();
-if(cfg.UUID)document.getElementById('setUUID').value=cfg.UUID;
-if(cfg.PROXYIP)document.getElementById('setProxyIP').value=cfg.PROXYIP;
-if(cfg.VLESS==='\\u2714')document.getElementById('setProtocol').value='vless';
-if(cfg.Trojan==='\\u2714')document.getElementById('setProtocol').value='trojan';
-const host=location.host;
+(function(){
+fetch('/admin/config.json').then(function(res){return res.json();}).then(function(cfg){
+if(cfg.UUID){document.getElementById('setUUID').value=cfg.UUID;}
+if(cfg.PROXYIP){document.getElementById('setProxyIP').value=cfg.PROXYIP;}
+if(cfg.VLESS==='\u2714'){document.getElementById('setProtocol').value='vless';}
+if(cfg.Trojan==='\u2714'){document.getElementById('setProtocol').value='trojan';}
+var host=location.host;
 document.getElementById('mainSubUrl').textContent=location.protocol+'//'+host+'/'+cfg.PASSWORD+'/sub';
-document.getElementById('statClients').textContent=cfg.CF?.Usage?.success?'فعال':'—';
-document.getElementById('statBandwidth').textContent=cfg.CF?.Usage?.used?Math.round(cfg.CF.Usage.used/1073741824)+'GB':'—';
-}
-}catch(e){console.log('Config fetch error:',e)}
+if(cfg.CF&&cfg.CF.Usage&&cfg.CF.Usage.success){document.getElementById('statClients').textContent='فعال';}
+if(cfg.CF&&cfg.CF.Usage&&cfg.CF.Usage.used){document.getElementById('statBandwidth').textContent=Math.round(cfg.CF.Usage.used/1073741824)+'GB';}
+}).catch(function(){});
 })();
 function generateLimited(){
-const name=document.getElementById('subName').value||'custom';
-const quota=parseInt(document.getElementById('subQuota').value)||0;
-const days=parseInt(document.getElementById('subDays').value)||0;
-if(!name||!quota||!days){showToast('لطفاً همه فیلدها را پر کنید');return}
-const quotaBytes=quota*1073741824;
-const expireUnix=Math.floor(Date.now()/1000)+(days*86400);
-const payload=JSON.stringify({n:name,q:quotaBytes,e:expireUnix});
-const token=btoa(payload).replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/,'');
-const url=location.protocol+'//'+location.host+'/cc-limited-sub/'+token;
+var name=document.getElementById('subName').value||'custom';
+var quota=parseInt(document.getElementById('subQuota').value)||0;
+var days=parseInt(document.getElementById('subDays').value)||0;
+if(!name||!quota||!days){showToast('لطفاً همه فیلدها را پر کنید');return;}
+var quotaBytes=quota*1073741824;
+var expireUnix=Math.floor(Date.now()/1000)+(days*86400);
+var payload=JSON.stringify({n:name,q:quotaBytes,e:expireUnix});
+var token=btoa(payload).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+var url=location.protocol+'//'+location.host+'/cc-limited-sub/'+token;
 document.getElementById('builderOutput').style.display='block';
 document.getElementById('builderUrl').textContent=url;
 document.getElementById('builderResult').style.display='grid';
 document.getElementById('resQuota').textContent=quota+' GB';
-const expDate=new Date(expireUnix*1000);
+var expDate=new Date(expireUnix*1000);
 document.getElementById('resExpire').textContent=expDate.toLocaleDateString('fa-IR');
-addConfigItem({name,quota,days,url});
+addConfigItem({name:name,quota:quota,days:days,url:url});
 showToast('کانفیگ محدود ساخته شد!');
 }
-const configs=[];
-function addConfigItem(c){
-configs.push(c);
-renderConfigs();
-}
+var configs=[];
+function addConfigItem(c){configs.push(c);renderConfigs();}
 function renderConfigs(){
-const list=document.getElementById('configList');
-list.innerHTML=configs.map((c,i)=>\`
-<div class="config-item">
-<div class="config-info">
-<div class="config-name">\${c.name}</div>
-<div class="config-meta">
-<span><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>\${c.quota} GB</span>
-<span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>\${c.days} روز</span>
-</div>
-</div>
-<div class="config-actions">
-<button class="btn btn-ghost btn-sm" onclick="navigator.clipboard.writeText('\${c.url}');showToast('کپی شد!')">
-<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-کپی
-</button>
-<button class="btn btn-danger btn-sm" onclick="configs.splice(\${i},1);renderConfigs();showToast('حذف شد')">
-<svg viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-حذف
-</button>
-</div>
-</div>
-\`).join('');
+var list=document.getElementById('configList');
+var html='';
+for(var i=0;i<configs.length;i++){
+var c=configs[i];
+html+='<div class="config-item"><div class="config-info"><div class="config-name">'+c.name+'</div><div class="config-meta"><span><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>'+c.quota+' GB</span><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>'+c.days+' روز</span></div></div><div class="config-actions"><button class="btn btn-ghost btn-sm" onclick="navigator.clipboard.writeText(\''+c.url+'\');showToast(\'کپی شد!\')"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>کپی</button><button class="btn btn-danger btn-sm" onclick="configs.splice('+i+',1);renderConfigs();showToast(\'حذف شد\')"><svg viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>حذف</button></div></div>';
 }
-async function saveSettings(){
-try{
-const cfg={
+list.innerHTML=html;
+}
+function saveSettings(){
+var cfg={
 UUID:document.getElementById('setUUID').value,
 PROXYIP:document.getElementById('setProxyIP').value,
-VLESS:document.getElementById('setProtocol').value==='vless'?'\\u2714':'\\u2716',
-Trojan:document.getElementById('setProtocol').value==='trojan'?'\\u2714':'\\u2716',
+VLESS:document.getElementById('setProtocol').value==='vless'?'\u2714':'\u2716',
+Trojan:document.getElementById('setProtocol').value==='trojan'?'\u2714':'\u2716',
 PORT:document.getElementById('setPort').value
 };
-const res=await fetch('/admin/config.json',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cfg)});
-if(res.ok)showToast('تنظیمات ذخیره شد!');
-else showToast('خطا در ذخیره');
-}catch(e){showToast('خطا در اتصال')}
+fetch('/admin/config.json',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cfg)}).then(function(res){
+if(res.ok){showToast('تنظیمات ذخیره شد!');}else{showToast('خطا در ذخیره');}
+}).catch(function(){showToast('خطا در اتصال');});
 }
 </script>
 </body>
@@ -717,105 +690,91 @@ else showToast('خطا در ذخیره');
 
 // ─── UTILITY FUNCTIONS ────────────────────────────────────────────────────────
 
-/** Timing-safe string comparison */
 function timingSafeEqual(a, b) {
   if (a.length !== b.length) return false;
-  const aa = new TextEncoder().encode(a);
-  const bb = new TextEncoder().encode(b);
-  let result = 0;
-  for (let i = 0; i < aa.length; i++) {
+  var aa = new TextEncoder().encode(a);
+  var bb = new TextEncoder().encode(b);
+  var result = 0;
+  for (var i = 0; i < aa.length; i++) {
     result |= aa[i] ^ bb[i];
   }
   return result === 0;
 }
 
-/** Convert ArrayBuffer to hex string */
 function bufToHex(buf) {
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-/** Generate a session token: timestamp.randomHex.signature */
-async function generateSessionToken(secret) {
-  const timestamp = Date.now().toString();
-  const randomBytes = crypto.getRandomValues(new Uint8Array(16));
-  const randomHex = bufToHex(randomBytes);
-  const key = await crypto.subtle.importKey(
-    'raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
-  );
-  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(timestamp + '.' + randomHex));
-  return timestamp + '.' + randomHex + '.' + bufToHex(sig);
-}
-
-/** Verify a session token without KV */
-async function verifySessionToken(token, env) {
-  const parts = token.split('.');
-  if (parts.length !== 3) return false;
-  const [timestamp, randomHex, signature] = parts;
-  const tokenTime = parseInt(timestamp);
-  if (isNaN(tokenTime) || Date.now() - tokenTime > 86400000) return false;
-  const secret = env.PASSWORD || 'default-secret';
-  try {
-    const key = await crypto.subtle.importKey(
-      'raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
-    );
-    const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(timestamp + '.' + randomHex));
-    const expectedSig = bufToHex(sig);
-    return timingSafeEqual(signature, expectedSig);
-  } catch { return false; }
-}
-
-/** Parse cookies from request */
-function parseCookies(req) {
-  const cookieHeader = req.headers.get('Cookie') || '';
-  const cookies = {};
-  cookieHeader.split(';').forEach(c => {
-    const [k, ...v] = c.trim().split('=');
-    if (k) cookies[k] = v.join('=');
-  });
-  return cookies;
-}
-
-/** HTML response helper */
-function htmlResponse(body, status = 200) {
-  return new Response(body, {
-    status,
-    headers: { 'Content-Type': 'text/html;charset=UTF-8' },
-  });
-}
-
-/** JSON response helper */
-function jsonResponse(data, status = 200, extraHeaders = {}) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json', ...extraHeaders },
-  });
+  return Array.from(new Uint8Array(buf)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
 }
 
 // ─── AUTHENTICATION ────────────────────────────────────────────────────────────
 
-async function checkAuth(request, env) {
-  const cookies = parseCookies(request);
-  const token = cookies['cc_session'];
-  if (!token) return false;
-  // If KV is available, check session there
-  if (env.KV) {
-    try {
-      const stored = await env.KV.get('session_' + token);
-      if (stored !== null) return true;
-    } catch {}
+async function generateSessionToken(secret) {
+  var timestamp = Date.now().toString();
+  var randomBytes = crypto.getRandomValues(new Uint8Array(16));
+  var randomHex = bufToHex(randomBytes);
+  var key = await crypto.subtle.importKey(
+    'raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+  );
+  var sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(timestamp + '.' + randomHex));
+  return timestamp + '.' + randomHex + '.' + bufToHex(sig);
+}
+
+async function verifySessionToken(token, secret) {
+  var parts = token.split('.');
+  if (parts.length !== 3) return false;
+  var timestamp = parts[0];
+  var randomHex = parts[1];
+  var signature = parts[2];
+  var tokenTime = parseInt(timestamp);
+  if (isNaN(tokenTime) || Date.now() - tokenTime > 86400000) return false;
+  try {
+    var key = await crypto.subtle.importKey(
+      'raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+    );
+    var sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(timestamp + '.' + randomHex));
+    var expectedSig = bufToHex(sig);
+    return timingSafeEqual(signature, expectedSig);
+  } catch (e) {
+    return false;
   }
-  // Fallback: verify HMAC-signed token (works without KV)
-  return verifySessionToken(token, env);
+}
+
+function parseCookies(req) {
+  var cookieHeader = req.headers.get('Cookie') || '';
+  var cookies = {};
+  cookieHeader.split(';').forEach(function(c) {
+    var parts = c.trim().split('=');
+    var k = parts[0];
+    var v = parts.slice(1).join('=');
+    if (k) cookies[k] = v;
+  });
+  return cookies;
+}
+
+async function checkAuth(request, env) {
+  try {
+    var cookies = parseCookies(request);
+    var token = cookies['cc_session'];
+    if (!token) return false;
+    var secret = env.PASSWORD || 'default-secret';
+    if (env.KV) {
+      try {
+        var stored = await env.KV.get('session_' + token);
+        if (stored !== null) return true;
+      } catch (e) {}
+    }
+    return verifySessionToken(token, secret);
+  } catch (e) {
+    return false;
+  }
 }
 
 async function createSession(env) {
-  const secret = env.PASSWORD || 'default-secret';
-  const token = await generateSessionToken(secret);
-  // Try to store session in KV with 24h TTL (optional)
+  var secret = env.PASSWORD || 'default-secret';
+  var token = await generateSessionToken(secret);
   if (env.KV) {
     try {
       await env.KV.put('session_' + token, JSON.stringify({ created: Date.now() }), { expirationTtl: 86400 });
-    } catch {}
+    } catch (e) {}
   }
   return token;
 }
@@ -825,11 +784,10 @@ async function createSession(env) {
 async function getConfig(env) {
   if (env.KV) {
     try {
-      const raw = await env.KV.get('config');
+      var raw = await env.KV.get('config');
       if (raw) return JSON.parse(raw);
-    } catch {}
+    } catch (e) {}
   }
-  // Default config from env vars
   return {
     UUID: env.UUID || '',
     PASSWORD: env.PASSWORD || '',
@@ -845,29 +803,29 @@ async function saveConfig(env, config) {
   if (env.KV) {
     try {
       await env.KV.put('config', JSON.stringify(config));
-    } catch {}
+    } catch (e) {}
   }
 }
 
 // ─── SUBSCRIPTION GENERATION ───────────────────────────────────────────────────
 
 function generateVLESSConfig(host, uuid, port, proxyIP) {
-  const pIP = proxyIP || host;
-  const path = '/' + uuid;
-  return `vless://${uuid}@${pIP}:${port}?encryption=none&security=tls&sni=${host}&type=ws&host=${host}&path=${encodeURIComponent(path)}#CoConection-VLESS`;
+  var pIP = proxyIP || host;
+  var path = '/' + uuid;
+  return 'vless://' + uuid + '@' + pIP + ':' + port + '?encryption=none&security=tls&sni=' + host + '&type=ws&host=' + host + '&path=' + encodeURIComponent(path) + '#CoConection-VLESS';
 }
 
 function generateTrojanConfig(host, password, port, proxyIP) {
-  const pIP = proxyIP || host;
-  return `trojan://${password}@${pIP}:${port}?security=tls&sni=${host}&type=ws&host=${host}&path=%2Ftrojan#CoConection-Trojan`;
+  var pIP = proxyIP || host;
+  return 'trojan://' + password + '@' + pIP + ':' + port + '?security=tls&sni=' + host + '&type=ws&host=' + host + '&path=%2Ftrojan#CoConection-Trojan';
 }
 
 function generateSubscription(host, config) {
-  const uuid = config.UUID || '';
-  const password = config.PASSWORD || '';
-  const port = config.PORT || '443';
-  const proxyIP = config.PROXYIP || '';
-  const lines = [];
+  var uuid = config.UUID || '';
+  var password = config.PASSWORD || '';
+  var port = config.PORT || '443';
+  var proxyIP = config.PROXYIP || '';
+  var lines = [];
   if (config.VLESS === '\u2714') {
     lines.push(generateVLESSConfig(host, uuid, port, proxyIP));
   }
@@ -882,249 +840,158 @@ function generateSubscription(host, config) {
 
 // ─── VLESS PROXY HANDLER ──────────────────────────────────────────────────────
 
-/**
- * Parse VLESS protocol header from the first WebSocket message.
- * VLESS header format:
- *   1 byte: version (0)
- *   16 bytes: UUID
- *   1 byte: additional info length
- *   variable: additional info (command, etc.)
- *   1 byte: command (0x01=TCP, 0x02=UDP)
- *   variable: address type + address + port
- */
 function parseVLESSHeader(buffer) {
-  const view = new DataView(buffer);
-  let offset = 0;
-
-  // Version
-  const version = view.getUint8(offset);
-  if (version !== 0) return null;
-  offset += 1;
-
-  // UUID (16 bytes)
-  const uuidBytes = new Uint8Array(buffer, offset, 16);
-  const uuid = Array.from(uuidBytes).map((b, i) => {
-    const hex = b.toString(16).padStart(2, '0');
-    if (i === 4 || i === 6 || i === 8 || i === 10) return '-' + hex;
-    return hex;
-  }).join('');
-  offset += 16;
-
-  // Additional info length
-  const addLen = view.getUint8(offset);
-  offset += 1;
-  offset += addLen; // skip additional info
-
-  // Command
-  const cmd = view.getUint8(offset);
-  offset += 1;
-
-  if (cmd !== 0x01 && cmd !== 0x02) return null; // only TCP and UDP
-
-  // Address type
-  const addrType = view.getUint8(offset);
-  offset += 1;
-
-  let address = '';
-  if (addrType === 0x01) {
-    // IPv4
-    address = Array.from(new Uint8Array(buffer, offset, 4)).join('.');
-    offset += 4;
-  } else if (addrType === 0x03) {
-    // Domain
-    const domainLen = view.getUint8(offset);
+  try {
+    var view = new DataView(buffer);
+    var offset = 0;
+    var version = view.getUint8(offset);
+    if (version !== 0) return null;
     offset += 1;
-    address = new TextDecoder().decode(new Uint8Array(buffer, offset, domainLen));
-    offset += domainLen;
-  } else if (addrType === 0x04) {
-    // IPv6
-    const ipv6Parts = [];
-    for (let i = 0; i < 8; i++) {
-      ipv6Parts.push(view.getUint16(offset).toString(16));
-      offset += 2;
-    }
-    address = ipv6Parts.join(':');
+    var uuidBytes = new Uint8Array(buffer, offset, 16);
+    var uuid = Array.from(uuidBytes).map(function(b, i) {
+      var hex = b.toString(16).padStart(2, '0');
+      if (i === 4 || i === 6 || i === 8 || i === 10) return '-' + hex;
+      return hex;
+    }).join('');
     offset += 16;
-  } else {
+    var addLen = view.getUint8(offset);
+    offset += 1;
+    offset += addLen;
+    var cmd = view.getUint8(offset);
+    offset += 1;
+    if (cmd !== 0x01 && cmd !== 0x02) return null;
+    var addrType = view.getUint8(offset);
+    offset += 1;
+    var address = '';
+    if (addrType === 0x01) {
+      address = Array.from(new Uint8Array(buffer, offset, 4)).join('.');
+      offset += 4;
+    } else if (addrType === 0x03) {
+      var domainLen = view.getUint8(offset);
+      offset += 1;
+      address = new TextDecoder().decode(new Uint8Array(buffer, offset, domainLen));
+      offset += domainLen;
+    } else if (addrType === 0x04) {
+      var ipv6Parts = [];
+      for (var i = 0; i < 8; i++) {
+        ipv6Parts.push(view.getUint16(offset).toString(16));
+        offset += 2;
+      }
+      address = ipv6Parts.join(':');
+    } else {
+      return null;
+    }
+    var port = view.getUint16(offset);
+    offset += 2;
+    return { uuid: uuid, cmd: cmd, address: address, port: port, headerLength: offset };
+  } catch (e) {
     return null;
   }
-
-  // Port (big-endian)
-  const port = view.getUint16(offset);
-  offset += 2;
-
-  return {
-    uuid,
-    cmd,
-    address,
-    port,
-    headerLength: offset,
-  };
 }
 
-/** Build VLESS response header */
-function buildVLESSResponse() {
-  return new Uint8Array([0x00, 0x00]); // version 0, no additional info
-}
-
-/** Handle VLESS over WebSocket proxy */
 async function handleVLESSProxy(ws, uuid, env) {
   ws.accept();
+  var remoteSocket = null;
+  var remoteWritable = null;
+  var vlessRespHeader = new Uint8Array([0x00, 0x00]);
+  var isFirstMessage = true;
 
-  let remoteSocket = null;
-  let remoteWritable = null;
-  const vlessRespHeader = buildVLESSResponse();
-  let isFirstMessage = true;
-
-  ws.addEventListener('message', async (event) => {
+  ws.addEventListener('message', async function(event) {
     try {
-      const rawData = event.data;
-      const data = typeof rawData === 'string' ? new TextEncoder().encode(rawData) : new Uint8Array(rawData);
+      var rawData = event.data;
+      var data = typeof rawData === 'string' ? new TextEncoder().encode(rawData) : new Uint8Array(rawData);
 
       if (isFirstMessage) {
         isFirstMessage = false;
+        var header = parseVLESSHeader(data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength));
+        if (!header) { ws.close(); return; }
+        var expectedUUID = (uuid || '').replace(/-/g, '').toLowerCase();
+        var gotUUID = header.uuid.replace(/-/g, '').toLowerCase();
+        if (expectedUUID && gotUUID !== expectedUUID) { ws.close(); return; }
 
-        // First message: parse VLESS header
-        const header = parseVLESSHeader(data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength));
-        if (!header) {
-          ws.close();
-          return;
-        }
+        var address = header.address;
+        var port = header.port;
 
-        // Verify UUID
-        const expectedUUID = (uuid || '').replace(/-/g, '').toLowerCase();
-        const gotUUID = header.uuid.replace(/-/g, '').toLowerCase();
-        if (expectedUUID && gotUUID !== expectedUUID) {
-          ws.close();
-          return;
-        }
-
-        let address = header.address;
-        const port = header.port;
-
-        // DNS resolution for domain addresses
         if (address && !/^\d+\.\d+\.\d+\.\d+$/.test(address) && !address.includes(':')) {
-          try {
-            const resolved = await dnsResolve(address);
-            if (resolved) address = resolved;
-          } catch {}
+          try { var resolved = await dnsResolve(address); if (resolved) address = resolved; } catch (e) {}
         }
 
-        // Send VLESS response (acknowledge connection)
         ws.send(vlessRespHeader);
 
-        // Connect to remote via TCP
         try {
-          const proxyIP = env.PROXYIP || '';
-          const connectHost = proxyIP || address;
-
-          remoteSocket = connect({ hostname: connectHost, port: port });
-          remoteWritable = remoteSocket.writable.getWriter();
-
-          // Forward remaining data after header
-          if (data.byteLength > header.headerLength) {
-            const remaining = data.slice(header.headerLength);
-            await remoteWritable.write(remaining);
+          var proxyIP = env.PROXYIP || '';
+          var connectHost = proxyIP || address;
+          if (typeof connect === 'function') {
+            remoteSocket = connect({ hostname: connectHost, port: port });
+            remoteWritable = remoteSocket.writable.getWriter();
+          } else {
+            ws.close(); return;
           }
 
-          // Pipe remote -> WebSocket (with VLESS response header on first chunk)
-          const reader = remoteSocket.readable.getReader();
-          let sentHeader = false;
+          if (data.byteLength > header.headerLength) {
+            await remoteWritable.write(data.slice(header.headerLength));
+          }
 
-          (async () => {
+          var reader = remoteSocket.readable.getReader();
+          (async function() {
             try {
               while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                if (!sentHeader) {
-                  sentHeader = true;
-                  ws.send(value);
-                } else {
-                  ws.send(value);
-                }
+                var result = await reader.read();
+                if (result.done) break;
+                ws.send(result.value);
               }
-            } catch {}
-            try { ws.close(); } catch {}
+            } catch (e) {}
+            try { ws.close(); } catch (e) {}
           })();
         } catch (e) {
-          try { ws.close(); } catch {}
+          try { ws.close(); } catch (e2) {}
         }
       } else {
-        // Subsequent messages: forward to remote
         if (remoteWritable) {
-          try {
-            await remoteWritable.write(data);
-          } catch {
-            try { ws.close(); } catch {}
-          }
+          try { await remoteWritable.write(data); } catch (e) { try { ws.close(); } catch (e2) {} }
         }
       }
     } catch (e) {
-      try { ws.close(); } catch {}
+      try { ws.close(); } catch (e2) {}
     }
   });
 
-  ws.addEventListener('close', () => {
-    if (remoteSocket) {
-      try { remoteSocket.close(); } catch {}
-    }
+  ws.addEventListener('close', function() {
+    if (remoteSocket) { try { remoteSocket.close(); } catch (e) {} }
   });
 
-  ws.addEventListener('error', () => {
-    if (remoteSocket) {
-      try { remoteSocket.close(); } catch {}
-    }
+  ws.addEventListener('error', function() {
+    if (remoteSocket) { try { remoteSocket.close(); } catch (e) {} }
   });
 }
 
-// connect() is a Cloudflare Workers built-in for TCP connections
-// Usage: const socket = connect({ hostname, port });
-// socket has .readable (ReadableStream) and .writable (WritableStream)
-
 // ─── TROJAN PROXY HANDLER ─────────────────────────────────────────────────────
 
-/**
- * Parse Trojan protocol header.
- * Trojan format: 
- *   password (hex) + CRLF +
- *   command (0x01=CONNECT) + address type + address + port + CRLF
- */
 function parseTrojanHeader(buffer) {
   try {
-    const bytes = new Uint8Array(buffer);
-    const text = new TextDecoder().decode(bytes);
-
-    // Find first CRLF
-    const crlfIdx = text.indexOf('\r\n');
+    var bytes = new Uint8Array(buffer);
+    var text = new TextDecoder().decode(bytes);
+    var crlfIdx = text.indexOf('\r\n');
     if (crlfIdx < 0) return null;
-
-    const password = text.substring(0, crlfIdx);
-    let offset = crlfIdx + 2;
-
-    // Command
-    const cmd = bytes[offset];
+    var password = text.substring(0, crlfIdx);
+    var offset = crlfIdx + 2;
+    var cmd = bytes[offset];
     offset += 1;
-    if (cmd !== 0x01) return null; // Only CONNECT
-
-    // Address type
-    const addrType = bytes[offset];
+    if (cmd !== 0x01) return null;
+    var addrType = bytes[offset];
     offset += 1;
-
-    let address = '';
+    var address = '';
     if (addrType === 0x01) {
-      // IPv4
       address = Array.from(bytes.slice(offset, offset + 4)).join('.');
       offset += 4;
     } else if (addrType === 0x03) {
-      // Domain
-      const domainLen = bytes[offset];
+      var domainLen = bytes[offset];
       offset += 1;
       address = new TextDecoder().decode(bytes.slice(offset, offset + domainLen));
       offset += domainLen;
     } else if (addrType === 0x04) {
-      // IPv6
-      const ipv6Parts = [];
-      for (let i = 0; i < 16; i += 2) {
+      var ipv6Parts = [];
+      for (var i = 0; i < 16; i += 2) {
         ipv6Parts.push(((bytes[offset + i] << 8) | bytes[offset + i + 1]).toString(16));
       }
       address = ipv6Parts.join(':');
@@ -1132,138 +999,98 @@ function parseTrojanHeader(buffer) {
     } else {
       return null;
     }
-
-    // Port (big-endian)
-    const port = (bytes[offset] << 8) | bytes[offset + 1];
+    var port = (bytes[offset] << 8) | bytes[offset + 1];
     offset += 2;
-
-    // Skip CRLF after address
-    if (bytes[offset] === 0x0d && bytes[offset + 1] === 0x0a) {
-      offset += 2;
-    }
-
-    return {
-      password,
-      cmd,
-      address,
-      port,
-      headerLength: offset,
-    };
-  } catch {
+    if (bytes[offset] === 0x0d && bytes[offset + 1] === 0x0a) { offset += 2; }
+    return { password: password, cmd: cmd, address: address, port: port, headerLength: offset };
+  } catch (e) {
     return null;
   }
 }
 
-/** Handle Trojan over WebSocket proxy */
 async function handleTrojanProxy(ws, password, env) {
   ws.accept();
+  var remoteSocket = null;
+  var remoteWritable = null;
+  var isFirstMessage = true;
 
-  let remoteSocket = null;
-  let remoteWritable = null;
-  let isFirstMessage = true;
-
-  ws.addEventListener('message', async (event) => {
+  ws.addEventListener('message', async function(event) {
     try {
-      const rawData = event.data;
-      const data = typeof rawData === 'string' ? new TextEncoder().encode(rawData) : new Uint8Array(rawData);
+      var rawData = event.data;
+      var data = typeof rawData === 'string' ? new TextEncoder().encode(rawData) : new Uint8Array(rawData);
 
       if (isFirstMessage) {
         isFirstMessage = false;
+        var header = parseTrojanHeader(data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength));
+        if (!header) { ws.close(); return; }
+        var address = header.address;
+        var port = header.port;
 
-        const header = parseTrojanHeader(data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength));
-        if (!header) {
-          ws.close();
-          return;
-        }
-
-        let address = header.address;
-        const port = header.port;
-
-        // DNS resolution for domain addresses
         if (address && !/^\d+\.\d+\.\d+\.\d+$/.test(address) && !address.includes(':')) {
-          try {
-            const resolved = await dnsResolve(address);
-            if (resolved) address = resolved;
-          } catch {}
+          try { var resolved = await dnsResolve(address); if (resolved) address = resolved; } catch (e) {}
         }
 
-        // Send Trojan response (0x00 = OK)
         ws.send(new Uint8Array([0x00]));
 
         try {
-          const proxyIP = env.PROXYIP || '';
-          const connectHost = proxyIP || address;
-
-          remoteSocket = connect({ hostname: connectHost, port: port });
-          remoteWritable = remoteSocket.writable.getWriter();
-
-          if (data.byteLength > header.headerLength) {
-            const remaining = data.slice(header.headerLength);
-            await remoteWritable.write(remaining);
+          var proxyIP = env.PROXYIP || '';
+          var connectHost = proxyIP || address;
+          if (typeof connect === 'function') {
+            remoteSocket = connect({ hostname: connectHost, port: port });
+            remoteWritable = remoteSocket.writable.getWriter();
+          } else {
+            ws.close(); return;
           }
 
-          // Pipe remote -> WebSocket
-          const reader = remoteSocket.readable.getReader();
-          (async () => {
+          if (data.byteLength > header.headerLength) {
+            await remoteWritable.write(data.slice(header.headerLength));
+          }
+
+          var reader = remoteSocket.readable.getReader();
+          (async function() {
             try {
               while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                ws.send(value);
+                var result = await reader.read();
+                if (result.done) break;
+                ws.send(result.value);
               }
-            } catch {}
-            try { ws.close(); } catch {}
+            } catch (e) {}
+            try { ws.close(); } catch (e2) {}
           })();
         } catch (e) {
-          try { ws.close(); } catch {}
+          try { ws.close(); } catch (e2) {}
         }
       } else {
         if (remoteWritable) {
-          try {
-            await remoteWritable.write(data);
-          } catch {
-            try { ws.close(); } catch {}
-          }
+          try { await remoteWritable.write(data); } catch (e) { try { ws.close(); } catch (e2) {} }
         }
       }
     } catch (e) {
-      try { ws.close(); } catch {}
+      try { ws.close(); } catch (e2) {}
     }
   });
 
-  ws.addEventListener('close', () => {
-    if (remoteSocket) {
-      try { remoteSocket.close(); } catch {}
-    }
+  ws.addEventListener('close', function() {
+    if (remoteSocket) { try { remoteSocket.close(); } catch (e) {} }
   });
 
-  ws.addEventListener('error', () => {
-    if (remoteSocket) {
-      try { remoteSocket.close(); } catch {}
-    }
+  ws.addEventListener('error', function() {
+    if (remoteSocket) { try { remoteSocket.close(); } catch (e) {} }
   });
-}
-
-/** SHA-224 hex for Trojan password verification */
-function sha224Hex(str) {
-  // Trojan uses SHA224 of password as hex
-  // We'll compute this in the handler since crypto.subtle doesn't support SHA-224
-  // For now, return empty to skip verification (actual Trojan implementations handle this)
-  return '';
 }
 
 // ─── DNS RESOLVER ──────────────────────────────────────────────────────────────
 
 async function dnsResolve(domain) {
   try {
-    const resp = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=A`, {
+    var resp = await fetch('https://cloudflare-dns.com/dns-query?name=' + encodeURIComponent(domain) + '&type=A', {
       headers: { 'Accept': 'application/dns-json' },
     });
-    const data = await resp.json();
+    var data = await resp.json();
     if (data.Answer && data.Answer.length > 0) {
       return data.Answer[0].data;
     }
-  } catch {}
+  } catch (e) {}
   return domain;
 }
 
@@ -1271,195 +1098,217 @@ async function dnsResolve(domain) {
 
 export default {
   async fetch(request, env, ctx) {
-    const url = new URL(request.url);
-    const path = url.pathname;
-    const host = url.hostname;
-    const method = request.method;
+    // Top-level error catcher — prevents any uncaught exception from crashing the worker
+    try {
+      var url = new URL(request.url);
+      var path = url.pathname;
+      var host = url.hostname;
+      var method = request.method;
 
-    // ── Landing page ──
-    if (path === '/' || path === '') {
-      return htmlResponse(INDEX_HTML);
-    }
-
-    // ── Admin redirect ──
-    if (path === '/admin') {
-      return Response.redirect(url.origin + '/admin/', 302);
-    }
-
-    // ── Admin login page ──
-    if (path === '/admin/' && method === 'GET') {
-      const authenticated = await checkAuth(request, env);
-      if (authenticated) {
-        return htmlResponse(PANEL_HTML);
+      // Landing page
+      if (path === '/' || path === '') {
+        return new Response(INDEX_HTML, { status: 200, headers: { 'Content-Type': 'text/html;charset=UTF-8' } });
       }
-      return htmlResponse(LOGIN_HTML);
-    }
 
-    // ── Admin login POST ──
-    if (path === '/admin/login' && method === 'POST') {
-      try {
-        const contentType = request.headers.get('Content-Type') || '';
-        let password = '';
+      // Admin redirect: /admin → /admin/
+      if (path === '/admin') {
+        return Response.redirect(url.origin + '/admin/', 302);
+      }
 
-        if (contentType.includes('application/x-www-form-urlencoded')) {
-          const body = await request.text();
-          const params = new URLSearchParams(body);
-          password = params.get('password') || '';
-        } else if (contentType.includes('application/json')) {
-          const body = await request.json();
-          password = body.password || '';
-        } else {
-          const body = await request.text();
-          const params = new URLSearchParams(body);
-          password = params.get('password') || '';
+      // Admin panel / login page
+      if (path === '/admin/' && method === 'GET') {
+        var authenticated = await checkAuth(request, env);
+        var html = authenticated ? PANEL_HTML : LOGIN_HTML;
+        return new Response(html, { status: 200, headers: { 'Content-Type': 'text/html;charset=UTF-8' } });
+      }
+
+      // Admin login POST
+      if (path === '/admin/login' && method === 'POST') {
+        try {
+          var contentType = request.headers.get('Content-Type') || '';
+          var password = '';
+
+          if (contentType.includes('application/x-www-form-urlencoded')) {
+            var body = await request.text();
+            var params = new URLSearchParams(body);
+            password = params.get('password') || '';
+          } else if (contentType.includes('application/json')) {
+            var jsonBody = await request.json();
+            password = jsonBody.password || '';
+          } else {
+            var rawBody = await request.text();
+            var rawParams = new URLSearchParams(rawBody);
+            password = rawParams.get('password') || '';
+          }
+
+          var expectedPassword = env.PASSWORD || '';
+          if (!expectedPassword || !timingSafeEqual(password, expectedPassword)) {
+            return new Response(JSON.stringify({ success: false, error: 'Invalid password' }), {
+              status: 401,
+              headers: { 'Content-Type': 'application/json' },
+            });
+          }
+
+          var token = await createSession(env);
+
+          return new Response(JSON.stringify({ success: true }), {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+              'Set-Cookie': 'cc_session=' + token + '; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=86400',
+            },
+          });
+        } catch (e) {
+          return new Response(JSON.stringify({ success: false, error: 'Server error' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+          });
         }
+      }
 
-        const expectedPassword = env.PASSWORD || '';
-        if (!expectedPassword || !timingSafeEqual(password, expectedPassword)) {
-          return jsonResponse({ success: false, error: 'Invalid password' }, 401);
-        }
-
-        const token = await createSession(env);
-
-        return jsonResponse({ success: true }, 200, {
-          'Set-Cookie': `cc_session=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=86400`,
+      // Admin logout
+      if (path === '/admin/logout') {
+        try {
+          var cookies = parseCookies(request);
+          var logoutToken = cookies['cc_session'];
+          if (logoutToken && env.KV) {
+            try { await env.KV.delete('session_' + logoutToken); } catch (e) {}
+          }
+        } catch (e) {}
+        return new Response(null, {
+          status: 302,
+          headers: {
+            'Location': url.origin + '/admin/',
+            'Set-Cookie': 'cc_session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0',
+          },
         });
-      } catch (e) {
-        return jsonResponse({ success: false, error: 'Server error' }, 500);
       }
-    }
 
-    // ── Admin logout ──
-    if (path === '/admin/logout') {
-      const cookies = parseCookies(request);
-      const token = cookies['cc_session'];
-      if (token) {
-        try { await env.KV.delete('session_' + token); } catch {}
+      // Admin config GET (requires auth)
+      if (path === '/admin/config.json' && method === 'GET') {
+        var configAuth = await checkAuth(request, env);
+        if (!configAuth) {
+          return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+            status: 401,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
+        var config = await getConfig(env);
+        return new Response(JSON.stringify(config), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
       }
-      return new Response(null, {
-        status: 302,
-        headers: {
-          'Location': url.origin + '/admin/',
-          'Set-Cookie': 'cc_session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0',
-        },
-      });
-    }
 
-    // ── Admin config GET (requires auth) ──
-    if (path === '/admin/config.json' && method === 'GET') {
-      const authenticated = await checkAuth(request, env);
-      if (!authenticated) {
-        return jsonResponse({ error: 'Unauthorized' }, 401);
+      // Admin config POST (requires auth)
+      if (path === '/admin/config.json' && method === 'POST') {
+        var configPostAuth = await checkAuth(request, env);
+        if (!configPostAuth) {
+          return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+            status: 401,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
+        try {
+          var newConfig = await request.json();
+          var existingConfig = await getConfig(env);
+          var merged = Object.assign({}, existingConfig, newConfig);
+          await saveConfig(env, merged);
+          return new Response(JSON.stringify({ success: true }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        } catch (e) {
+          return new Response(JSON.stringify({ error: 'Invalid config' }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
       }
-      const config = await getConfig(env);
-      return jsonResponse(config);
-    }
 
-    // ── Admin config POST (requires auth) ──
-    if (path === '/admin/config.json' && method === 'POST') {
-      const authenticated = await checkAuth(request, env);
-      if (!authenticated) {
-        return jsonResponse({ error: 'Unauthorized' }, 401);
-      }
-      try {
-        const newConfig = await request.json();
-        // Merge with existing config, preserving PASSWORD from env
-        const existingConfig = await getConfig(env);
-        const merged = { ...existingConfig, ...newConfig };
-        await saveConfig(env, merged);
-        return jsonResponse({ success: true });
-      } catch (e) {
-        return jsonResponse({ error: 'Invalid config' }, 400);
-      }
-    }
-
-    // ── Subscription endpoint ──
-    // GET /{PASSWORD}/sub
-    const password = env.PASSWORD || '';
-    if (password && path === '/' + password + '/sub') {
-      const config = await getConfig(env);
-      const sub = generateSubscription(host, config);
-      return new Response(sub, {
-        headers: {
-          'Content-Type': 'text/plain',
-          'Profile-Title': 'CoConection',
-          'Subscription-Userinfo': `upload=0; download=0; total=107374182400; expire=9999999999`,
-        },
-      });
-    }
-
-    // ── Limited subscription endpoint ──
-    // GET /cc-limited-sub/{TOKEN}
-    if (path.startsWith('/cc-limited-sub/')) {
-      const token = path.slice('/cc-limited-sub/'.length);
-      try {
-        // Decode base64url token
-        const padded = token.replace(/-/g, '+').replace(/_/g, '/');
-        const padLen = (4 - (padded.length % 4)) % 4;
-        const paddedToken = padded + '='.repeat(padLen);
-        const payload = JSON.parse(atob(paddedToken));
-
-        const name = payload.n || 'Limited';
-        const quota = payload.q || 0;
-        const expire = payload.e || 0;
-
-        const config = await getConfig(env);
-        const sub = generateSubscription(host, config);
-
-        const upload = 0;
-        const download = 0;
-        const total = quota;
-        const expireStr = expire.toString();
-
+      // Subscription endpoint: GET /{PASSWORD}/sub
+      var envPassword = env.PASSWORD || '';
+      if (envPassword && path === '/' + envPassword + '/sub') {
+        var subConfig = await getConfig(env);
+        var sub = generateSubscription(host, subConfig);
         return new Response(sub, {
           headers: {
             'Content-Type': 'text/plain',
-            'Profile-Title': 'CoConection - ' + name,
-            'Subscription-Userinfo': `upload=${upload}; download=${download}; total=${total}; expire=${expireStr}`,
-            'Profile-Web-Page-URL': url.origin,
+            'Profile-Title': 'CoConection',
+            'Subscription-Userinfo': 'upload=0; download=0; total=107374182400; expire=9999999999',
           },
         });
-      } catch (e) {
-        return jsonResponse({ error: 'Invalid token' }, 400);
       }
-    }
 
-    // ── WebSocket proxy (VLESS) ──
-    // Upgrade at /{UUID} for VLESS
-    const uuid = env.UUID || '';
-    const upgradeHeader = request.headers.get('Upgrade');
-    if (uuid && path === '/' + uuid && upgradeHeader && upgradeHeader.toLowerCase() === 'websocket') {
-      const pair = new WebSocketPair();
-      const { 0: client, 1: server } = pair;
+      // Limited subscription endpoint: GET /cc-limited-sub/{TOKEN}
+      if (path.startsWith('/cc-limited-sub/')) {
+        var limitedToken = path.slice('/cc-limited-sub/'.length);
+        try {
+          var padded = limitedToken.replace(/-/g, '+').replace(/_/g, '/');
+          var padLen = (4 - (padded.length % 4)) % 4;
+          var paddedToken = padded + '='.repeat(padLen);
+          var payload = JSON.parse(atob(paddedToken));
+          var lName = payload.n || 'Limited';
+          var lQuota = payload.q || 0;
+          var lExpire = payload.e || 0;
+          var lConfig = await getConfig(env);
+          var lSub = generateSubscription(host, lConfig);
+          return new Response(lSub, {
+            headers: {
+              'Content-Type': 'text/plain',
+              'Profile-Title': 'CoConection - ' + lName,
+              'Subscription-Userinfo': 'upload=0; download=0; total=' + lQuota + '; expire=' + lExpire,
+              'Profile-Web-Page-URL': url.origin,
+            },
+          });
+        } catch (e) {
+          return new Response(JSON.stringify({ error: 'Invalid token' }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
+      }
 
-      // Handle VLESS proxy
-      ctx.waitUntil(handleVLESSProxy(server, uuid, env));
+      // WebSocket proxy (VLESS): Upgrade at /{UUID}
+      var envUUID = env.UUID || '';
+      var upgradeHeader = request.headers.get('Upgrade');
+      if (envUUID && path === '/' + envUUID && upgradeHeader && upgradeHeader.toLowerCase() === 'websocket') {
+        if (typeof WebSocketPair !== 'undefined') {
+          var pair = new WebSocketPair();
+          var client = pair[0];
+          var server = pair[1];
+          ctx.waitUntil(handleVLESSProxy(server, envUUID, env));
+          return new Response(null, { status: 101, webSocket: client });
+        }
+        return new Response('WebSocket not supported', { status: 500 });
+      }
 
-      return new Response(null, {
-        status: 101,
-        webSocket: client,
+      // Trojan WebSocket proxy at /trojan
+      if (path === '/trojan' && upgradeHeader && upgradeHeader.toLowerCase() === 'websocket') {
+        if (typeof WebSocketPair !== 'undefined') {
+          var tPair = new WebSocketPair();
+          var tClient = tPair[0];
+          var tServer = tPair[1];
+          ctx.waitUntil(handleTrojanProxy(tServer, envPassword, env));
+          return new Response(null, { status: 101, webSocket: tClient });
+        }
+        return new Response('WebSocket not supported', { status: 500 });
+      }
+
+      // Favicon
+      if (path === '/favicon.ico') {
+        return new Response(null, { status: 204 });
+      }
+
+      // 404
+      return new Response('Not Found', { status: 404 });
+
+    } catch (e) {
+      // Global error handler — this prevents Error 1101
+      return new Response('Internal Server Error: ' + (e.message || 'Unknown error'), {
+        status: 500,
+        headers: { 'Content-Type': 'text/plain' },
       });
     }
-
-    // ── Trojan WebSocket proxy at /trojan ──
-    if (path === '/trojan' && upgradeHeader && upgradeHeader.toLowerCase() === 'websocket') {
-      const pair = new WebSocketPair();
-      const { 0: client, 1: server } = pair;
-
-      ctx.waitUntil(handleTrojanProxy(server, password, env));
-
-      return new Response(null, {
-        status: 101,
-        webSocket: client,
-      });
-    }
-
-    // ── Favicon / static ──
-    if (path === '/favicon.ico') {
-      return new Response(null, { status: 204 });
-    }
-
-    // ── 404 ──
-    return new Response('Not Found', { status: 404 });
   },
 };
