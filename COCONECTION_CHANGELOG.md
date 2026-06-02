@@ -1,5 +1,19 @@
 # CoConection Changelog
 
+## v2.0.0 — Complete UI Redesign
+
+- **بازطراحی کامل رابط کاربری** — سه صفحه مجزا با استایل مینیمال خطی
+- **لندینگ پیج جدید** (`Htmel/index.html`) — hero، ویژگی‌ها، سازنده کانفیگ، تصاویر
+- **صفحه ورود جدید** (`Htmel/login.html`) — فرم مینیمال با فیدبک خطا
+- **پنل ادمین جدید** (`Htmel/panel.html`) — سایدبار، داشبورد، لیست کانفیگ‌ها، سازنده محدود، تنظیمات
+- **صفر وابستگی خارجی** — هیچ CDN، فونت خارجی یا آیکون‌کتابی
+- **تم Dark/Light** — تشخیص سیستم + ذخیره انتخاب + تغییر با یک کلیک
+- **SVG icons داخلی** — تمام آیکون‌ها inline، بدون نیاز به FontAwesome/Remix
+- **موبایل‌محور** — سایدبار همبرگری، ورودی ۱۶px، دکمه‌های ۴۴px، safe-area
+- **سازنده کانفیگ محدود** — ایجاد اشتراک با نام، حجم (GB) و مدت (روز) اختصاصی
+- **لیست کانفیگ‌ها** — نمایش، کپی و حذف کانفیگ‌های محدود
+- **Toast notifications** — پیام‌های موفقیت/خطا به صورت toast
+
 ## v1.1.0 — Security Hardening
 
 - **FIX**: Timing-unsafe HMAC signature comparison replaced with constant-time `__ccTimingSafeEqual()` to prevent timing side-channel attacks.
