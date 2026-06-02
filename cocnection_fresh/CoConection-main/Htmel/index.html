@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>CoConection</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
+:root{
+--bg:#0a0a0b;--surface:#141416;--surface2:#1c1c1f;--text:#e8e8ec;--muted:#7a7a85;
+--line:#2a2a2f;--accent:#6c5ce7;--accent-dim:rgba(108,92,231,.12);
+--green:#00b894;--red:#e74c3c;--radius:12px;
+--font:'Vazirmatn',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+[data-theme="light"]{
+--bg:#f5f5f7;--surface:#fff;--surface2:#f0f0f2;--text:#1a1a1f;--muted:#6e6e78;
+--line:#e0e0e5;--accent:#6c5ce7;--accent-dim:rgba(108,92,231,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:0 24px;transition:background .3s,backdrop-filter .3s}
+.nav.scrolled{background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:960px;margin:0 auto;height:64px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;letter-spacing:-.02em}
+.logo-icon{width:32px;height:32px;border-radius:10px;background:var(--accent);display:grid;place-items:center}
+.logo-icon svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nav-links{display:flex;gap:28px;font-size:.88rem;color:var(--muted)}
+.nav-links a:hover{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.theme-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;color:var(--text);transition:border-color .2s}
+.theme-btn:hover{border-color:var(--accent)}
+.theme-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.github-btn{height:36px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:6px;transition:border-color .2s}
+.github-btn:hover{border-color:var(--accent)}
+.github-btn svg{width:14px;height:14px;fill:currentColor}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 24px 40px;position:relative}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;border-radius:50%;background:var(--accent);opacity:.04;filter:blur(100px);pointer-events:none}
+.hero-content{max-width:640px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;border:1px solid var(--line);font-size:.78rem;color:var(--muted);margin-bottom:24px}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.hero h1{font-size:clamp(2.4rem,7vw,4.2rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:20px}
+.hero h1 span{color:var(--accent)}
+.hero p{font-size:1.05rem;color:var(--muted);max-width:480px;margin:0 auto 36px;line-height:1.8}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{height:44px;padding:0 24px;border-radius:10px;font-size:.88rem;font-weight:600;display:inline-flex;align-items:center;gap:8px;border:none;transition:all .2s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--muted)}
+.btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── FEATURES ── */
+.section{padding:80px 24px}
+.section-inner{max-width:960px;margin:0 auto}
+.section-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:12px}
+.section-title{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;letter-spacing:-.03em;margin-bottom:16px}
+.section-desc{color:var(--muted);font-size:.95rem;max-width:480px;margin-bottom:48px}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.feature{padding:28px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);transition:border-color .2s}
+.feature:hover{border-color:var(--accent)}
+.feature-icon{width:40px;height:40px;border-radius:10px;background:var(--accent-dim);color:var(--accent);display:grid;place-items:center;margin-bottom:16px}
+.feature-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.feature h3{font-size:.95rem;font-weight:700;margin-bottom:8px}
+.feature p{font-size:.84rem;color:var(--muted);line-height:1.7}
+
+/* ── CONFIG BUILDER PREVIEW ── */
+.config-preview{padding:28px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);max-width:560px}
+.config-preview h3{font-size:.95rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.config-preview h3 svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.field-group{margin-bottom:14px}
+.field-group label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+.field-group input{width:100%;height:42px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:.88rem;font-family:inherit;transition:border-color .2s}
+.field-group input:focus{outline:none;border-color:var(--accent)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.config-output{margin-top:20px;padding:14px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font-family:'SF Mono',Consolas,monospace;font-size:.78rem;color:var(--accent);direction:ltr;text-align:left;word-break:break-all}
+
+/* ── SCREENSHOTS ── */
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.shot{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.shot img{width:100%;display:block;aspect-ratio:9/16;object-fit:cover;object-position:top}
+.shot-label{padding:14px;font-size:.84rem;color:var(--muted)}
+
+/* ── FOOTER ── */
+.footer{border-top:1px solid var(--line);padding:40px 24px}
+.footer-inner{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-left{font-size:.82rem;color:var(--muted)}
+.footer-left a{color:var(--accent)}
+.footer-right{display:flex;gap:20px;font-size:.82rem;color:var(--muted)}
+.footer-right a:hover{color:var(--text)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+.nav-links{display:none}
+.hero h1{font-size:2.2rem}
+.hero-actions{flex-direction:column;align-items:stretch}
+.hero-actions .btn{justify-content:center}
+.shots{grid-template-columns:1fr}
+.field-row{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+.hero{padding-top:100px}
+.section{padding:48px 20px}
+.features{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+<div class="nav-inner">
+<a href="#" class="logo">
+<span class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>
+CoConection
+</a>
+<div class="nav-links">
+<a href="#features">ویژگی‌ها</a>
+<a href="#config">کانفیگ</a>
+<a href="#screens">تصاویر</a>
+</div>
+<div class="nav-right">
+<button class="theme-btn" id="themeBtn" aria-label="تغییر تم">
+<svg viewBox="0 0 24 24" id="themeIcon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+<a href="https://github.com/mcodersir/CoConection" target="_blank" class="github-btn">
+<svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+GitHub
+</a>
+</div>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-content">
+<div class="badge"><span class="badge-dot"></span> نسخه ۱.۱ — آماده استفاده</div>
+<h1>اتصال هوشمند،<br><span>رابط تمیز</span></h1>
+<p>CoConection یک پنل پروکسی مینیمال و واکنش‌گرا بر پایه Nova-Proxy است. رابط کاربری خطی، دارک/لایت، بدون وابستگی خارجی.</p>
+<div class="hero-actions">
+<a href="#config" class="btn btn-primary">
+<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+ساخت کانفیگ
+</a>
+<a href="https://github.com/mcodersir/CoConection" target="_blank" class="btn btn-ghost">
+<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+سورس کد
+</a>
+</div>
+</div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+<div class="section-inner">
+<div class="section-label">ویژگی‌ها</div>
+<h2 class="section-title">ساده، تمیز، سریع</h2>
+<p class="section-desc">هر چیزی که نیاز داری بدون شلوغی. رابط خطی، آیکون‌های داخلی، و چیدمان موبایل‌محور.</p>
+<div class="features">
+<div class="feature">
+<div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+<h3>استایل خطی</h3>
+<p>کارت‌ها و دکمه‌ها با border تمیز و فضای سفید کافی. بدون سایه، بدون شلوغی، بدون حواس‌پرتی.</p>
+</div>
+<div class="feature">
+<div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+<h3>دارک و لایت</h3>
+<p>تم سیستم را می‌خواند. انتخاب کاربر ذخیره می‌شود. تغییر با یک کلیک در هر صفحه.</p>
+</div>
+<div class="feature">
+<div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
+<h3>موبایل‌محور</h3>
+<p>ورودی ۱۶px برای جلوگیری از زوم، دکمه‌های ۴۴px، safe-area و چیدمان تک‌ستونه.</p>
+</div>
+<div class="feature">
+<div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+<h3>امنیت سخت‌گیرانه</h3>
+<p>مقایسه timing-safe، بدون رمز در URL، اعتبارسنجی payload و بدون fallback ناامن.</p>
+</div>
+<div class="feature">
+<div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+<h3>کانفیگ محدود</h3>
+<p>ساخت کانفیگ دوم با حجم و زمان انقضای اختصاصی. کلاینت مصرف و مدت را نمایش می‌دهد.</p>
+</div>
+<div class="feature">
+<div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+<h3>بدون وابستگی</h3>
+<p>صفر CDN خارجی. فونت سیستمی، آیکون‌های SVG داخلی، CSS خطی. همه چیز لوکال.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CONFIG BUILDER -->
+<section class="section" id="config" style="background:var(--surface)">
+<div class="section-inner" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+<div>
+<div class="section-label">سازنده کانفیگ</div>
+<h2 class="section-title">کانفیگ دوم با حجم و زمان</h2>
+<p class="section-desc" style="margin-bottom:24px">کانفیگ اول همان اشتراک اصلی است. کانفیگ دوم یک لینک اشتراک جدا با متادیتای حجم و تاریخ انقضا می‌سازد تا کلاینت‌ها مصرف و زمان را نمایش دهند.</p>
+<p style="font-size:.84rem;color:var(--muted);line-height:1.8">لینک محدود هدر <code style="background:var(--accent-dim);color:var(--accent);padding:2px 6px;border-radius:4px;font-size:.78rem">Subscription-Userinfo</code> را برای کلاینت‌های سازگار ارسال می‌کند. محدودسازی واقعی ترافیک به قابلیت‌های هسته و زیرساخت وابسته است.</p>
+</div>
+<div class="config-preview">
+<h3>
+<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+نمونه سازنده
+</h3>
+<div class="field-group">
+<label>نام کانفیگ</label>
+<input type="text" id="cfgName" placeholder="مثلاً: کانفیگ دوست" oninput="updateOutput()">
+</div>
+<div class="field-row">
+<div class="field-group">
+<label>حجم (GB)</label>
+<input type="number" id="cfgQuota" placeholder="10" min="1" oninput="updateOutput()">
+</div>
+<div class="field-group">
+<label>مدت (روز)</label>
+<input type="number" id="cfgDays" placeholder="30" min="1" oninput="updateOutput()">
+</div>
+</div>
+<div class="config-output" id="cfgOutput">/cc-limited-sub/TOKEN</div>
+</div>
+</div>
+</section>
+
+<!-- SCREENSHOTS -->
+<section class="section" id="screens">
+<div class="section-inner">
+<div class="section-label">تصاویر</div>
+<h2 class="section-title">نمای پنل</h2>
+<p class="section-desc">اسکرین‌شات‌های واقعی از رابط کاربری CoConection.</p>
+<div class="shots">
+<div class="shot">
+<img src="img/login.JPG" alt="صفحه ورود"/>
+<div class="shot-label">صفحه ورود</div>
+</div>
+<div class="shot">
+<img src="img/dashbord.JPG" alt="داشبورد"/>
+<div class="shot-label">داشبورد</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="footer-inner">
+<div class="footer-left">
+سازنده: <a href="https://github.com/mcodersir" target="_blank">M_CODER</a> &nbsp;·&nbsp; بیس: <a href="https://github.com/IRNova/Nova-Proxy" target="_blank">Nova-Proxy</a>
+</div>
+<div class="footer-right">
+<a href="https://github.com/mcodersir/CoConection" target="_blank">GitHub</a>
+<a href="#features">ویژگی‌ها</a>
+</div>
+</div>
+</footer>
+
+<script>
+// Theme
+const root=document.documentElement,btn=document.getElementById('themeBtn'),icon=document.getElementById('themeIcon');
+function setTheme(t){
+root.dataset.theme=t;
+localStorage.setItem('cc-theme',t);
+icon.innerHTML=t==='dark'?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
+}
+setTheme(localStorage.getItem('cc-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+btn.onclick=()=>setTheme(root.dataset.theme==='dark'?'light':'dark');
+
+// Nav scroll
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>20));
+
+// Config output
+function updateOutput(){
+const n=document.getElementById('cfgName').value||'custom';
+const q=document.getElementById('cfgQuota').value||'0';
+const d=document.getElementById('cfgDays').value||'0';
+document.getElementById('cfgOutput').textContent=`/cc-limited-sub/{TOKEN}?name=${encodeURIComponent(n)}&quota=${q}GB&days=${d}`;
+}
+</script>
+</body>
+</html>
